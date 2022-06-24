@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+function xdg_data_path   { echo ".local/share/$1"; }
+function xdg_config_path { echo ".config/$1";      }
+function xdg_cache_path  { echo ".cache/$1";       }
+function xdg_bin_path    { echo ".local/bin/$1";   }

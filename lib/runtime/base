@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC1090 disable=SC1091
+RUNTIME_DIR=$(realpath "${BASH_SOURCE[0]%/*}")
+
+function import {
+  for module in "$@"; do
+    source "$RUNTIME_DIR/$module" 2>/dev/null || die "runtime module $module not found"
+  done
+}

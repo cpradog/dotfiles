@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC1090 disable=SC1091
+#
+# $1 - package file
+# $2 - action
+# $3 - optional
+
+BASEDIR=$(realpath "${0%/*}")
+RUNTIME="$BASEDIR/runtime"
+PKGFILE=$1
+ACTION=$2
+OPTIONAL=$3
+PKGDIR=$(realpath "${PKGFILE%/*}")
+
+# common package variables
+D="${PREFIX:-${HOME}}"
+W="$PKGDIR"
+PN="${PKGDIR##*/}"
+export D W PN PREFIX PKGDIR
+
+# initialize runtime
+source "$RUNTIME/base"
+source "$RUNTIME/output"
+source "$RUNTIME/default"
+
+# load package file
+cd "$PKGDIR" 2>/dev/null || die "package not found"
+[[ -f "$PKGFILE" ]] && source "$PKGFILE"
+
+if [[ $(type -t "$ACTION") == function ]]; then
+  info "running '$ACTION' ..."
+  "$ACTION"
+else
+  [[ -n "$OPTIONAL" ]] || die "$ACTION not supported"
+fi

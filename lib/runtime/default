@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+import files xdg
+
+function default_install {
+  link_all_deep 'config' "$(xdg_config_path "$PN")"
+  link_all_deep 'data'   "$(xdg_data_path   "$PN")"
+  link_all_deep 'home'   '' '.'
+  link_all_deep 'bin'    "$(xdg_bin_path    '')"
+}
+
+function default_uninstall {
+  unlink_all_deep 'config' "$(xdg_config_path "$PN")"
+  unlink_all_deep 'data'   "$(xdg_data_path   "$PN")"
+  unlink_all_deep 'home'   '' '.'
+  unlink_all_deep 'bin'    "$(xdg_bin_path    '')"
+}
+
+function install   { default_install;   }
+function uninstall { default_uninstall; }

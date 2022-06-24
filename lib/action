@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+BASEDIR=$(realpath "${0%/*}")
+ACTION="${0##*/}"
+
+function run_sandbox {
+  bash "$BASEDIR/lib/sandbox" "$1/pkginfo" "$ACTION" "$2"
+}
+
+if [[ "$#" -gt 0 ]]; then
+  for pkg in "$@"; do
+    run_sandbox "$(realpath "$PWD/$pkg")"
+  done
+else
+  while read -r pkg; do
+    run_sandbox "${pkg%/*}" "required"
+  done < <(find "${BASEDIR}" -name 'pkginfo')
+fi

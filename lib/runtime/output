@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+function output_put               { echo -ne "$*" >&2;                                     }
+function output_cur_move          { output_put "\033[$1;$2H";                              }
+function output_cur_save          { output_put "\0337";                                    }
+function output_cur_restore       { output_put "\0338";                                    }
+function output_cur_hidden        { output_put "\033[?25l";                                }
+function output_cur_visible       { output_put "\033[?25h";                                }
+function output_scr_save          { output_put "\033[?47h";                                }
+function output_scr_restore       { output_put "\033[?47l";                                }
+function output_erase_right       { output_put "\033[0K$*";                                }
+function output_erase_left        { output_put "\033[1K$*";                                }
+function output_erase_line        { output_put "\033[2K$*";                                }
+function output_reset             { output_put "\033[0m$*";                                }
+function output_reset_underline   { output_put "\033[24m$*";                               }
+function output_reset_reverse     { output_put "\033[27m$*";                               }
+function output_reset_forecolor   { output_put "\033[39m$*";                               }
+function output_reset_background  { output_put "\033[49m$*";                               }
+function output_attr_bold         { output_put "\033[1m$*$(output_reset '')";              }
+function output_attr_dim          { output_put "\033[2m$*$(output_reset '')";              }
+function output_attr_stdout       { output_put "\033[3m$*$(output_reset '')";              }
+function output_attr_hidden       { output_put "\033[8m$*$(output_reset '')";              }
+function output_attr_underline    { output_put "\033[4m$*$(output_reset_underline '')";    }
+function output_attr_reverse      { output_put "\033[7m$*$(output_reset_reverse '')";      }
+function output_fg_black          { output_put "\033[30m$*$(output_reset_forecolor '')";   }
+function output_fg_red            { output_put "\033[31m$*$(output_reset_forecolor '')";   }
+function output_fg_green          { output_put "\033[32m$*$(output_reset_forecolor '')";   }
+function output_fg_yellow         { output_put "\033[33m$*$(output_reset_forecolor '')";   }
+function output_fg_blue           { output_put "\033[34m$*$(output_reset_forecolor '')";   }
+function output_fg_magenta        { output_put "\033[35m$*$(output_reset_forecolor '')";   }
+function output_fg_cyan           { output_put "\033[36m$*$(output_reset_forecolor '')";   }
+function output_fg_white          { output_put "\033[37m$*$(output_reset_forecolor '')";   }
+function output_bg_black          { output_put "\033[40m$*$(output_reset_background '')";  }
+function output_bg_red            { output_put "\033[41m$*$(output_reset_background '')";  }
+function output_bg_green          { output_put "\033[42m$*$(output_reset_background '')";  }
+function output_bg_yellow         { output_put "\033[43m$*$(output_reset_background '')";  }
+function output_bg_blue           { output_put "\033[44m$*$(output_reset_background '')";  }
+function output_bg_magenta        { output_put "\033[45m$*$(output_reset_background '')";  }
+function output_bg_cyan           { output_put "\033[46m$*$(output_reset_background '')";  }
+function output_bg_white          { output_put "\033[47m$*$(output_reset_background '')";  }
+
+function debug { output_fg_white  "$(date '+%F %X') [DEBUG] $PN: $*\n"; }
+function info  { output_fg_blue   "$(date '+%F %X') [INFO ] $PN: $*\n"; }
+function warn  { output_fg_yellow "$(date '+%F %X') [WARN ] $PN: $*\n"; }
+function error { output_fg_red    "$(date '+%F %X') [ERROR] $PN: $*\n"; }
+function die   { error "$*"; exit 1;                                    }
