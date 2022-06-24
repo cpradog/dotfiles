@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+import xdg
+
+install() {
+  # create basic XDG directory layout
+  mkdir -p "$(xdg_data_path '.')"
+  mkdir -p "$(xdg_bin_path '.')"
+  mkdir -p "$(xdg_config_path '.')"
+  mkdir -p "$(xdg_cache_path '.')"
+
+  link 'user-dirs.conf' "$(xdg_config_path '.')"
+}
+
+uninstall() {
+  unlink 'user-dirs.conf' "$(xdg_config_path '.')"
+}
