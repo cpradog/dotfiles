@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-ZSH_PKG="$(realpath "$W/../zsh")"
-
 ZSH_LOCAL_RC="$(xdg_data_path 'zsh/rc.d')"
 ZSH_LOCAL_ENV="$(xdg_data_path 'zsh/env.d')"
 ZSH_LOCAL_PROFILE="$(xdg_data_path 'zsh/profile.d')"
@@ -37,9 +35,16 @@ function zsh_update_script {
     echo "#+END metadata"
 
     while read -r file; do
-      debug "adding $file ..."
       echo "#+BEGIN $file"
-      cat "$file"
+
+      if [[ -x "$file" ]]; then
+        debug "executing template $file ..."
+        "$file"
+      else
+        debug "adding $file ..."
+        cat "$file"
+      fi
+
       echo "#+END $file"
     done < <(find -L "${base_dirs[@]}" -type f -name '*.zsh' -printf '%f\t%p\n' | sort -k1 | cut -d$'\t' -f2)
   } >"$target"
