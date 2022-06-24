@@ -1,0 +1,3 @@
+NVM_DIR="${XDG_DATA_HOME}/nvm"
+NVM_LAZY_LOAD=false
+NVM_AUTO_USE=false

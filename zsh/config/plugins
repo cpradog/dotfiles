@@ -1,0 +1,48 @@
+# prompt theme
+romkatv/powerlevel10k path:powerlevel10k.zsh-theme
+
+# directory listing for zsh with git features
+supercrabtree/k
+
+# remember to use defined aliases
+djui/alias-tips
+
+# node version manager
+lukechilds/zsh-nvm
+lukechilds/zsh-better-npm-completion
+
+# node helpers
+ohmyzsh/ohmyzsh path:plugins/npm
+
+# git helpers
+ohmyzsh/ohmyzsh path:plugins/git
+ohmyzsh/ohmyzsh path:plugins/git-flow
+wfxr/forgit
+
+# zsh calculator
+arzzen/calc.plugin.zsh
+
+# docker helper
+ohmyzsh/ohmyzsh path:plugins/docker
+
+# sudo helper
+ohmyzsh/ohmyzsh path:plugins/sudo
+
+# fd
+ohmyzsh/ohmyzsh path:plugins/fd
+
+# gradle
+ohmyzsh/ohmyzsh path:plugins/gradle
+
+# syntax highlight
+zdharma-continuum/fast-syntax-highlighting
+
+# enhanced cd command
+b4b4r07/enhancd
+
+# enhanced history
+zsh-users/zsh-history-substring-search
+
+# timewarrior
+svenXY/timewarrior
+

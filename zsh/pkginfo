@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+import zsh
+
+install() {
+  default_install
+
+  mkdir -p "${D:?}/${ZSH_LOCAL_RC}"
+  mkdir -p "${D:?}/${ZSH_LOCAL_ENV}"
+  mkdir -p "${D:?}/${ZSH_LOCAL_PROFILE}"
+  touch "${D:?}/${ZSH_LOCAL_PLUGINS}"
+
+  zsh_update_antibody
+
+  # .zshrc will be updated by zsh_update_antibody
+  # zsh_update_script 'rc'
+  zsh_update_script 'env'
+  zsh_update_script 'profile'
+}
+
+uninstall() {
+  default_uninstall
+  unlink "$(xdg_bin_path 'antibody')"
+
+  unlink ".zshrc"
+  unlink ".zshenv"
+  unlink ".zprofile"
+  unlink "${ZSH_LOCAL_PLUGINS}"
+
+  rm -rf "${ZSH_LOCAL_RC}" "${ZSH_LOCAL_ENV}" "${ZSH_LOCAL_PROFILE}"
+}
+
+update() {
+  install
+}
