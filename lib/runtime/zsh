@@ -59,7 +59,7 @@ function zsh_update_antibody {
 
   info "generating init script ..."
   cat "${D:?}/$(xdg_config_path 'zsh/plugins')" "${D:?}/$ZSH_LOCAL_PLUGINS" |
-    "${bindir:?}/antibody" bundle >"${D:?}/${ZSH_LOCAL_RC:?}/00-antibody.zsh"
+    "${bindir:?}/antibody" bundle >"${D:?}/${ZSH_LOCAL_RC:?}/10-antibody.zsh"
 
   zsh_update_script 'rc'
 }
