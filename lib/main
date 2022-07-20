@@ -1,0 +1,129 @@
+#!/usr/bin/env sh
+set -o errexit  # exit on command failure
+set -o nounset  # exit on undeclared variable usage
+
+BASEDIR="$(dirname "$(realpath "$(readlink "$0")")")"
+DOTFILES_ROOT=${DOTFILES_ROOT:-$(realpath "${BASEDIR}/..")}
+DOTFILES_SANDBOX="$BASEDIR/sandbox"
+DOTFILES_PREFIX=$HOME
+DOTFILES_TRACE=0
+DOTFILES_PACKAGES=
+
+# shellcheck disable=SC1091 ## false positive, I don't know how to fix it
+. "$BASEDIR/output.sh"
+
+show_help() {
+  cat >&2 <<EOF
+dotfiles manager
+
+usage: $0 <command> [options] [packages...]
+
+commands:
+  install, i             install one or more packages.
+  uninstall, u           uninstall one or more packages.
+  list, l                list available packages.
+
+options:
+
+  -h, --help             this help message.
+  -v, --verbose          show detailed execution messages.
+  -t, --trace            enable shell command tracing
+  -p, --prefix PREFIX    install prefix. Default: \$HOME=($HOME)
+
+default:
+
+  If no packages specified install or uninstall all packages.
+
+EOF
+}
+
+while [ $# -gt 0 ]; do
+  case $1 in
+    --help | -h)
+      show_help
+      exit 0
+      ;;
+
+    --verbose | -v)
+      set_log_level "$DOTFILES_LOGLEVEL_DEBUG"
+      ;;
+
+    --trace | -t)
+      DOTFILES_TRACE=1
+      ;;
+
+    --prefix | -p)
+      shift
+      DOTFILES_PREFIX=$1
+      ;;
+
+    --prefix=* | -p=*)
+      DOTFILES_PREFIX=${1##*=}
+      ;;
+
+    --)
+      shift
+      DOTFILES_PACKAGES="${DOTFILES_PACKAGES} $*"
+      shift $#
+      ;;
+
+    -*)
+      die "unknown argument $1"
+      ;;
+
+    i | install)
+      DOTFILES_COMMAND=install
+      ;;
+
+    u | uninstall)
+      DOTFILES_COMMAND=uninstall
+      ;;
+
+    l | list)
+      DOTFILES_COMMAND=list
+      ;;
+
+    *)
+      DOTFILES_PACKAGES="${DOTFILES_PACKAGES} $1"
+      ;;
+
+  esac
+  shift >/dev/null 2>&1 || true
+done
+
+# load all packages if no packages specified
+DOTFILES_PACKAGES=${DOTFILES_PACKAGES:-$(find "$DOTFILES_ROOT" -maxdepth 2 -mindepth 2 -type f -name 'pkgrc' | sed 's@.*/\(.*\)/pkgrc@\1@')}
+
+debug "install prefix:      $DOTFILES_PREFIX"
+debug "command to execute:  $DOTFILES_COMMAND"
+debug "packages to install: $DOTFILES_PACKAGES"
+
+case $DOTFILES_COMMAND in
+  install | uninstall)
+    for pkg in $DOTFILES_PACKAGES; do
+      sh -c "export DOTFILES_LOGLEVEL=$DOTFILES_LOGLEVEL; \
+             export DOTFILES_TRACE=$DOTFILES_TRACE; \
+             export DOTFILES_PREFIX=$DOTFILES_PREFIX; \
+             '$DOTFILES_SANDBOX' '$DOTFILES_COMMAND' '$DOTFILES_ROOT/$pkg'"
+    done
+    ;;
+
+  list)
+    for pkg in $DOTFILES_PACKAGES; do
+      echo "$pkg"
+    done
+    ;;
+
+  '')
+    error "please, specify a command to execute"
+    show_help
+    exit 1
+    ;;
+
+  *)
+    error "unknown command: $DOTFILES_COMMAND"
+    show_help
+    exit 1
+    ;;
+
+esac
