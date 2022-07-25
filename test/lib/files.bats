@@ -87,3 +87,26 @@ import files
   assert_failure
   assert_output --partial "target_file is forbidden as it is outside $D"
 }
+
+@test "file_unlink should remove file from \$D" {
+  touch "$D/target_file"
+
+  run file_unlink 'target_file'
+  assert_success
+  assert_not_exists "$D/target_file"
+}
+
+@test "file_unlink should fail when target is outside \$D" {
+  run file_unlink '../some_file'
+  assert_failure
+  assert_output --partial "some_file is forbidden as it is outside $D"
+}
+
+@test "file_unlink should recursively remove target when is a directory" {
+  mkdir -p "$D/some_directory/with_subdirectories"
+  touch "$D/some_directory/with_subdirectories/and_files"
+
+  run file_unlink 'some_directory'
+  assert_success
+  assert_dir_not_exists "$D/some_directory"
+}

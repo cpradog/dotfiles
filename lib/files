@@ -53,3 +53,21 @@ file_link() {
       ;;
   esac
 }
+
+file_unlink() {
+  target="$(file_path "$*")"
+
+  case "$target" in
+    $D*)
+      if [ -e "$target" ]; then
+        rm -rf "$target"
+      else
+        warn "$target not found"
+      fi
+      ;;
+    *)
+      error "$target is forbidden as it is outside $D"
+      false
+      ;;
+  esac
+}
