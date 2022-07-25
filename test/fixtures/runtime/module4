@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+module4_function() {
+  info 'module4 function called'
+}

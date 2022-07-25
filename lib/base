@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+# shellcheck disable=SC1090 disable=SC1091
+
+##!
+# Import one or more runtime modules.
+#
+# $* - module names to import
+##
+import() {
+  for module in "$@"; do
+    . "$DOTFILES_LIB/$module"
+  done
+}

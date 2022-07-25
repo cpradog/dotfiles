@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+module3_function() {
+  info 'module3 function called'
+}

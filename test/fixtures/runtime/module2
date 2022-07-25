@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+module2_function() {
+  info 'module2 function called'
+}
