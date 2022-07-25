@@ -1,0 +1,55 @@
+#!/usr/bin/env sh
+
+file_path() {
+  path=""
+  for arg in "$@"; do
+    path="$path${path:+/}$arg"
+  done
+
+  case "$path" in
+    /*)
+      ;;
+    *)
+      path="$D/$path"
+      ;;
+  esac
+
+  realpath -ms "$path"
+}
+
+file_link() {
+  source="$(realpath -ms "$W/$1")"
+  target="$(file_path "${2:-${1##*/}}")"
+
+  if [ -d "$target" ]; then
+    target="$target/${1##*/}"
+  fi
+
+  case "$target" in
+    $D*)
+      mkdir -p "${target%/*}"
+
+      if [ ! -e "$target" ] && [ ! -h "$target" ]; then
+        debug "creating link: $target -\> $source"
+        ln -s "$source" "$target"
+      else
+        link=$(readlink -s "$target")
+        if [ "$link" = "$source" ]; then
+          debug "$target already installed (skipping)"
+          true
+        elif [ "$link" = '' ]; then
+          warn "$target already exists"
+          false
+        else
+          warn "$target already exists and links to $link"
+          false
+        fi
+      fi
+      ;;
+
+    *)
+      error "$target is forbidden as it is outside $D"
+      false
+      ;;
+  esac
+}
