@@ -4,6 +4,7 @@ bats_load_library bats-support
 bats_load_library bats-assert
 bats_load_library bats-file
 bats_load_library bats-mock
+bats_load_library extensions
 bats_load_library sandbox
 
 import xdg
