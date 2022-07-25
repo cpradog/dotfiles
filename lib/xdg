@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+import files
+
+xdg_get_config() { file_path '.config' "$@"; }
+xdg_get_local() { file_path '.local/share' "$@"; }
+xdg_get_cache() { file_path '.cache' "$@"; }
+xdg_get_bin() { file_path '.local/bin' "$@"; }
