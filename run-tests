@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+BASEDIR="$(realpath "${0%/*}")"
+BATS_LIB_PATH=${BASEDIR}/test/test_helper
+BATS_TESTS=$(find "${BASEDIR}/test/lib" -name '*.bats' | tr '\n' ' ')
+
+export BATS_LIB_PATH
+"$BASEDIR/test/bats/bin/bats" --pretty --print-output-on-failure $BATS_TESTS "$@"

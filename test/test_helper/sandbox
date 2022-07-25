@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC1090 disable=SC1091
+BASEDIR="${BASH_SOURCE[0]}"
+DOTFILES_LIB="$(realpath "${BASEDIR%/*}/../../lib")"
+DOTFILES_FIXTURES="$(realpath "${BASEDIR%/*}/../fixtures")"
+DOTFILES_PREFIX="$BATS_TEST_TMPDIR/prefix"
+DOTFILES_WORK="$BATS_TEST_TMPDIR/work"
+DOTFILES_LOGLEVEL=3
+DOTFILES_TRACE=0
+D="$DOTFILES_PREFIX"
+W="$DOTFILES_WORK"
+PN='test-package'
+
+. "$DOTFILES_LIB/output"
+. "$DOTFILES_LIB/base"
+
+setup() {
+  mkdir -p "$DOTFILES_PREFIX"
+  mkdir -p "$DOTFILES_WORK"
+  cd "$DOTFILES_WORK" || die 'unable to initialize test working folder'
+}
+
+export DOTFILES_PREFIX DOTFILES_WORK DOTFILES_LIB DOTFILES_FIXTURES DOTFILES_LOGLEVEL DOTFILES_TRACE D W PN
