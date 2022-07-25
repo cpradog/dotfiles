@@ -1,6 +1,13 @@
 #!/usr/bin/env sh
 #shellcheck disable=SC3037 ## echo arguments are known to work in FreeBSD, OSX and most linux distributions
 
+DOTFILES_LOGLEVEL_DEBUG=3
+DOTFILES_LOGLEVEL_INFO=2
+DOTFILES_LOGLEVEL_WARN=1
+DOTFILES_LOGLEVEL_ERROR=0
+DOTFILES_LOGLEVEL=${DOTFILES_LOGLEVEL:-$DOTFILES_LOGLEVEL_INFO}
+LOG_PREFIX=
+
 move_cursor() { echo -ne "\\e[$1;$2H"; }
 save_cursor() { echo -ne '\\e7'; }
 restore_cursor() { echo -ne '\\e8'; }
@@ -36,39 +43,24 @@ bg_magenta() { echo -ne "\\e[45m$*\\e[49m"; }
 bg_cyan() { echo -ne "\\e[46m$*\\e[49m"; }
 bg_white() { echo -ne "\\e[47m$*\\e[49m"; }
 
-DOTFILES_LOGLEVEL_DEBUG=3
-DOTFILES_LOGLEVEL_INFO=2
-DOTFILES_LOGLEVEL_WARN=1
-DOTFILES_LOGLEVEL_ERROR=0
-DOTFILES_LOGLEVEL=${DOTFILES_LOGLEVEL:-$DOTFILES_LOGLEVEL_INFO}
-LOG_PREFIX=
-
 set_log_level() { DOTFILES_LOGLEVEL="${1:-${DOTFILES_LOGLEVEL_INFO}}"; }
 
-debug() {
-  set +x
-  [ "$DOTFILES_LOGLEVEL" -ge "$DOTFILES_LOGLEVEL_DEBUG" ] && echo -e "$(fg_white "$(date '+%F %X') [DEBUG]$LOG_PREFIX $*")" >&2
-  [ "$DOTFILES_TRACE" -gt 0 ] && set -x
+log() {
+  level=$1
+  name=$2
+  fmt=$3
+  shift 3
+
+  if [ "$DOTFILES_LOGLEVEL" -ge "$level" ]; then
+    msg="$fmt $(date '+%F %X') [$name]$LOG_PREFIX $*"
+    echo -e "$(eval "$msg")"
+  fi
 }
 
-info() {
-  set +x
-  [ "$DOTFILES_LOGLEVEL" -ge "$DOTFILES_LOGLEVEL_INFO" ] && echo -e "$(fg_blue "$(date '+%F %X') [INFO ]$LOG_PREFIX $*")" >&2
-  [ "$DOTFILES_TRACE" -gt 0 ] && set -x
-}
-
-warn() {
-  set +x
-  [ "$DOTFILES_LOGLEVEL" -ge "$DOTFILES_LOGLEVEL_WARN" ] && echo -e "$(fg_yellow "$(date '+%F %X') [WARN ]$LOG_PREFIX $*")" >&2
-  [ "$DOTFILES_TRACE" -gt 0 ] && set -x
-}
-
-error() {
-  set +x
-  [ "$DOTFILES_LOGLEVEL" -ge "$DOTFILES_LOGLEVEL_ERROR" ] && echo -e "$(fg_red "$(date '+%F %X') [ERROR]$LOG_PREFIX $*")" >&2
-  [ "$DOTFILES_TRACE" -gt 0 ] && set -x
-}
-
+debug() { log "$DOTFILES_LOGLEVEL_DEBUG" 'DEBUG' 'fg_white' "$*"; }
+info() { log "$DOTFILES_LOGLEVEL_INFO" 'INFO ' 'fg_blue' "$*"; }
+warn() { log "$DOTFILES_LOGLEVEL_WARN" 'WARN ' 'fg_yellow' "$*"; }
+error() { log "$DOTFILES_LOGLEVEL_ERROR" 'ERROR' 'fg_red' "$*"; }
 die() {
   error "$*"
   exit 1
