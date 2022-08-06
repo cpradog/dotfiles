@@ -3,7 +3,7 @@
 import files xdg gen
 
 zsh_add_rc() {
-  templates="$(xdg_get_local 'zsh' 'rc.d')"
+  templates="$(xdg_get_data 'zsh' 'rc.d')"
   source="$1"
   target="${2:-${1##*/}}"
 
@@ -12,7 +12,7 @@ zsh_add_rc() {
 }
 
 zsh_del_rc() {
-  templates="$(xdg_get_local 'zsh' 'rc.d')"
+  templates="$(xdg_get_data 'zsh' 'rc.d')"
   target="$(file_path "$templates" "$*")"
 
   file_unlink "$target"
@@ -20,7 +20,7 @@ zsh_del_rc() {
 }
 
 zsh_add_env() {
-  templates="$(xdg_get_local 'zsh' 'env.d')"
+  templates="$(xdg_get_data 'zsh' 'env.d')"
   source="$1"
   target="${2:-${1##*/}}"
 
@@ -29,7 +29,7 @@ zsh_add_env() {
 }
 
 zsh_del_env() {
-  templates="$(xdg_get_local 'zsh' 'env.d')"
+  templates="$(xdg_get_data 'zsh' 'env.d')"
   target="$(file_path "$templates" "$*")"
 
   file_unlink "$target"
