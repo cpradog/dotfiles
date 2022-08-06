@@ -7,8 +7,8 @@ file_path() {
   done
 
   case "$path" in
-    /*)
-      ;;
+    /*) ;;
+
     *)
       path="$D/$path"
       ;;
@@ -61,6 +61,11 @@ file_unlink() {
     $D*)
       if [ -e "$target" ]; then
         rm -rf "$target"
+
+        parent="${target%/*}"
+        if [ "$D" != "$parent" ] && [ -e "$parent" ]; then
+          file_unlink "$parent"
+        fi
       else
         warn "$target not found"
       fi
