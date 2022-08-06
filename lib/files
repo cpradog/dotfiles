@@ -30,7 +30,7 @@ file_link() {
       mkdir -p "${target%/*}"
 
       if [ ! -e "$target" ] && [ ! -h "$target" ]; then
-        debug "creating link: $target -\> $source"
+        debug "creating link: $target -> $source"
         ln -s "$source" "$target"
       else
         link=$(readlink -s "$target")

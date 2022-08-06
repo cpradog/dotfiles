@@ -52,7 +52,7 @@ log() {
   shift 3
 
   if [ "$DOTFILES_LOGLEVEL" -ge "$level" ]; then
-    msg="$fmt $(date '+%F %X') [$name]$LOG_PREFIX $*"
+    msg="$fmt '$(date '+%F %X') [$name]$LOG_PREFIX $*'"
     echo -e "$(eval "$msg")"
   fi
 }
