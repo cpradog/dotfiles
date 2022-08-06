@@ -1,0 +1,37 @@
+#!/usr/bin/env sh
+
+import files xdg gen
+
+zsh_add_rc() {
+  templates="$(xdg_get_local 'zsh' 'rc.d')"
+  source="$1"
+  target="${2:-${1##*/}}"
+
+  file_link "$source" "$(file_path "$templates" "$target")"
+  gen_file "$(file_path '.zshrc')" "$templates"
+}
+
+zsh_del_rc() {
+  templates="$(xdg_get_local 'zsh' 'rc.d')"
+  target="$(file_path "$templates" "$*")"
+
+  file_unlink "$target"
+  gen_file "$(file_path '.zshrc')" "$templates"
+}
+
+zsh_add_env() {
+  templates="$(xdg_get_local 'zsh' 'env.d')"
+  source="$1"
+  target="${2:-${1##*/}}"
+
+  file_link "$source" "$(file_path "$templates" "$target")"
+  gen_file "$(file_path '.zshenv')" "$templates"
+}
+
+zsh_del_env() {
+  templates="$(xdg_get_local 'zsh' 'env.d')"
+  target="$(file_path "$templates" "$*")"
+
+  file_unlink "$target"
+  gen_file "$(file_path '.zshenv')" "$templates"
+}
