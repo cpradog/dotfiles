@@ -14,7 +14,7 @@ gen_file() {
   source=$*
 
   # shellcheck disable=2086 ## we need word splitting here to support multiple inputs
-  source_files=$(find -L $source -type f -printf '%f\t%p\n' |
+  source_files=$(find -L $source -type f -printf '%f\t%p\n' 2>/dev/null |
               sort -k1 |
               cut -d"$(printf '\t')" -f2)
 
