@@ -7,10 +7,10 @@ xdg_get_data() { file_path '.local/share' "$@"; }
 xdg_get_cache() { file_path '.cache' "$@"; }
 xdg_get_bin() { file_path '.local/bin' "$@"; }
 
-xdg_link_config() { file_link "$1" "$(xdg_get_config "${2:-${1%/*}}")"; }
-xdg_link_data() { file_link "$1" "$(xdg_get_data "${2:-${1%/*}}")"; }
-xdg_link_cache() { file_link "$1" "$(xdg_get_cache "${2:-${1%/*}}")"; }
-xdg_link_bin() { file_link "$1" "$(xdg_get_bin "${2:-${1%/*}}")"; }
+xdg_link_config() { file_link "$1" "$(xdg_get_config "${2:-${1##*/}}")"; }
+xdg_link_data() { file_link "$1" "$(xdg_get_data "${2:-${1##*/}}")"; }
+xdg_link_cache() { file_link "$1" "$(xdg_get_cache "${2:-${1##*/}}")"; }
+xdg_link_bin() { file_link "$1" "$(xdg_get_bin "${2:-${1##*/}}")"; }
 
 xdg_unlink_config() { file_unlink "$(xdg_get_config "$1")"; }
 xdg_unlink_data() { file_unlink "$(xdg_get_data "$1")"; }

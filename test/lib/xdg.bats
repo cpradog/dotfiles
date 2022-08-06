@@ -42,8 +42,9 @@ import xdg
 }
 
 @test "xdg_link_config should link files into \$D/.config directory" {
-  run xdg_link_config 'source_file'
-  assert_symlink_to "$W/source_file" "$D/.config/source_file"
+  mkdir -p "$W/files"
+  run xdg_link_config 'files/source_file'
+  assert_symlink_to "$W/files/source_file" "$D/.config/source_file"
 }
 
 @test "xdg_link_config should allow to specify relative target path" {
@@ -52,8 +53,9 @@ import xdg
 }
 
 @test "xdg_link_data should link files into \$D/.local/share directory" {
-  run xdg_link_data 'source_file'
-  assert_symlink_to "$W/source_file" "$D/.local/share/source_file"
+  mkdir -p "$W/files"
+  run xdg_link_data 'files/source_file'
+  assert_symlink_to "$W/files/source_file" "$D/.local/share/source_file"
 }
 
 @test "xdg_link_data should allow to specify relative target path" {
@@ -62,8 +64,9 @@ import xdg
 }
 
 @test "xdg_link_cache should link files into \$D/.cache directory" {
-  run xdg_link_cache 'source_file'
-  assert_symlink_to "$W/source_file" "$D/.cache/source_file"
+  mkdir -p "$W/files"
+  run xdg_link_cache 'files/source_file'
+  assert_symlink_to "$W/files/source_file" "$D/.cache/source_file"
 }
 
 @test "xdg_link_cache should allow to specify relative target path" {
@@ -72,8 +75,9 @@ import xdg
 }
 
 @test "xdg_link_bin should link files into \$D/.local/bin directory" {
-  run xdg_link_bin 'source_file'
-  assert_symlink_to "$W/source_file" "$D/.local/bin/source_file"
+  mkdir -p "$W/files"
+  run xdg_link_bin 'files/source_file'
+  assert_symlink_to "$W/files/source_file" "$D/.local/bin/source_file"
 }
 
 @test "xdg_link_bin should allow to specify relative target path" {
