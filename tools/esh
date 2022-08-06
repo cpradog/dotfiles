@@ -44,7 +44,7 @@ readonly PROGNAME='esh'
 readonly VERSION='0.3.2'
 readonly SCRIPTPATH="$0"
 
-AWK_CONVERTER=$(cat <<'AWK'
+AWK_CONVERTER_FUNCTIONS=$(cat <<'AWK'
 function fail(code, msg) {
 	state = "ERROR"
 	# FIXME: /dev/stderr is not portable
@@ -202,6 +202,10 @@ function process_line() {
 		}
 	}
 }
+AWK
+)
+AWK_CONVERTER=$(cat <<AWK
+$AWK_CONVERTER_FUNCTIONS
 BEGIN {
 	FS = ""
 	depth = 0
@@ -209,7 +213,10 @@ BEGIN {
 	puts("#!" (SHELL ~ /\// ? SHELL : "/usr/bin/env " SHELL))
 	puts("set -eu")
 	puts("if ( set -o pipefail 2>/dev/null ); then set -o pipefail; fi")
-	puts("__print() { printf '%s' \"$*\"; }")
+	puts("__print() { printf '%s' \"\$*\"; }")
+	puts("DOTFILES_LIB='$(realpath "${0%/*}/..")/lib'")
+	puts(". '$DOTFILES_LIB/base'")
+	puts(". '$DOTFILES_LIB/output'")
 
 	split(VARS, _lines, /\n/)
 	for (_i in _lines) {
@@ -221,7 +228,7 @@ BEGIN {
 	if (NR == 1) {
 		filenames[0] = FILENAME  # this var is not defined in BEGIN so we must do it here
 	}
-	buff = $0
+	buff = \$0
 	process_line()
 
 	if (print_nl && state != "COMMENT") {
