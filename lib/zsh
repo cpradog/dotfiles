@@ -35,3 +35,43 @@ zsh_del_env() {
   file_unlink "$target"
   gen_file "$(file_path '.zshenv')" "$templates"
 }
+
+zsh_update_antibody() {
+  antibody_bin="$(xdg_get_bin 'antibody')"
+  antibody_init="$(xdg_get_cache 'zsh' 'antibody' 'init.zsh')"
+  antibody_plugins="$(xdg_get_data 'zsh' 'antibody' 'plugins')"
+
+  if [ ! -x "$antibody_bin" ]; then
+    info 'installing antibody'
+    mkdir -p "${antibody_bin%/*}"
+    curl -sfL https://git.io/antibody | sh -s - -b "${antibody_bin%/*}"
+  fi
+
+  debug 'updating antibody init script'
+  mkdir -p "${antibody_init%/*}"
+  "$antibody_bin" < "$antibody_plugins" > "$antibody_init"
+}
+
+zsh_add_plugin() {
+  antibody_plugins="$(xdg_get_data 'zsh' 'antibody' 'plugins')"
+
+  mkdir -p "${antibody_plugins%/*}"
+  for plugin in "$@"; do
+    echo "$plugin" >> "$antibody_plugins"
+  done
+
+  zsh_update_antibody
+}
+
+zsh_del_plugin() {
+  antibody_plugins="$(xdg_get_data 'zsh' 'antibody' 'plugins')"
+
+  mkdir -p "${antibody_plugins%/*}"
+  temp=$(mktemp)
+  for plugin in "$@"; do
+    grep -v "$plugin" "$antibody_plugins" > "$temp" \
+      && mv "$temp" "$antibody_plugins"
+  done
+
+  zsh_update_antibody
+}
