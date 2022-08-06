@@ -3,9 +3,9 @@
 import files
 
 xdg_get_config() { file_path '.config' "$@"; }
-xdg_get_data() { file_path '.local/share' "$@"; }
+xdg_get_data() { file_path '.local' 'share' "$@"; }
 xdg_get_cache() { file_path '.cache' "$@"; }
-xdg_get_bin() { file_path '.local/bin' "$@"; }
+xdg_get_bin() { file_path '.local' 'bin' "$@"; }
 
 xdg_link_config() { file_link "$1" "$(xdg_get_config "${2:-${1##*/}}")"; }
 xdg_link_data() { file_link "$1" "$(xdg_get_data "${2:-${1##*/}}")"; }
