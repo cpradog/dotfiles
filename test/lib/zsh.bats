@@ -69,3 +69,11 @@ import zsh
   assert_file_not_contains "$D/.local/share/zsh/antibody/plugins" 'some/plugin'
   assert_file_exist "$D/.cache/zsh/antibody/init.zsh"
 }
+
+@test 'zsh_del_plugin should not fail if antibody plugins file is not pressent' {
+  run zsh_del_plugin 'some/plugin'
+  assert_success
+  assert_file_not_exist "$D/.local/share/zsh/antibody/plugins"
+  assert_file_not_exist "$D/.cache/zsh/antibody/init.zsh"
+
+}

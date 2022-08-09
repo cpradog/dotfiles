@@ -41,6 +41,10 @@ zsh_update_antibody() {
   antibody_init="$(xdg_get_cache 'zsh' 'antibody' 'init.zsh')"
   antibody_plugins="$(xdg_get_data 'zsh' 'antibody' 'plugins')"
 
+  if [ ! -e "$antibody_plugins" ]; then
+    return 0
+  fi
+
   if [ ! -x "$antibody_bin" ]; then
     info 'installing antibody'
     mkdir -p "${antibody_bin%/*}"
@@ -65,6 +69,10 @@ zsh_add_plugin() {
 
 zsh_del_plugin() {
   antibody_plugins="$(xdg_get_data 'zsh' 'antibody' 'plugins')"
+
+  if [ ! -e "$antibody_plugins" ]; then
+    return 0
+  fi
 
   mkdir -p "${antibody_plugins%/*}"
   temp=$(mktemp)
