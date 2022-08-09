@@ -89,6 +89,15 @@ import files
   assert_output --partial "target_file is forbidden as it is outside $D"
 }
 
+@test 'file_link should allow link absolute paths' {
+  source_file="$(realpath "$D/../some_file")"
+  touch "$source_file"
+  run file_link "$source_file" 'target_file'
+  assert_success
+  assert_symlink_to "$source_file" "$D/target_file"
+  rm "$source_file"
+}
+
 @test "file_unlink should remove file from \$D" {
   touch "$D/target_file"
 
