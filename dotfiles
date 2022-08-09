@@ -145,7 +145,7 @@ while [ $# -gt 0 ]; do
 done
 
 # load all packages if no packages specified
-DOTFILES_PACKAGES=${DOTFILES_PACKAGES:-$(find "$DOTFILES_ROOT" -maxdepth 2 -mindepth 2 -type f -name 'pkgrc' | sed 's@.*/\(.*\)/pkgrc@\1@')}
+DOTFILES_PACKAGES=${DOTFILES_PACKAGES:-$(find "$DOTFILES_ROOT" -maxdepth 2 -mindepth 2 -type f -name 'pkgrc' | sed 's@.*/\(.*\)/pkgrc@\1@' | tr '\n' ' ')}
 
 debug "install prefix:      $DOTFILES_PREFIX"
 debug "command to execute:  $DOTFILES_COMMAND"
