@@ -18,7 +18,7 @@ file_path() {
 }
 
 file_link() {
-  source="$(realpath -ms "$W/$1")"
+  case "$1" in /*) source="$1" ;; *) source="$(realpath -ms "$W/$1")" ;; esac
   target="$(file_path "${2:-${1##*/}}")"
 
   if [ -d "$target" ]; then
