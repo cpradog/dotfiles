@@ -14,6 +14,7 @@ import zsh
   echo "$expected" >"$W/template"
 
   run zsh_add_rc "template"
+  assert_success
   assert_symlink_to  "$W/template" "$D/.local/share/zsh/rc.d/template"
   assert_file_exists "$D/.zshrc"
   assert_file_contains "$D/.zshrc" "$expected"
@@ -21,12 +22,15 @@ import zsh
 
 @test 'zsh_del_rc should unlink file and regenerate zshrc file' {
   mkdir -p "$D/.local/share/zsh/rc.d"
-  touch "$D/.local/share/zsh/rc.d/template"
+  echo "something" > "$D/.local/share/zsh/rc.d/10-template"
+  echo "something" > "$D/.local/share/zsh/rc.d/20-template"
 
-  run zsh_del_rc "template"
+  run zsh_del_rc "10-template"
+  assert_success
   assert_file_exists "$D/.zshrc"
-  assert_file_not_contains "$D/.zshrc" "$D/.local/share/zsh/rc.d/template"
-  assert_file_not_exists "$D/.local/share/zsh/rc.d/template"
+  assert_file_not_contains "$D/.zshrc" "$D/.local/share/zsh/rc.d/10-template"
+  assert_file_not_exists "$D/.local/share/zsh/rc.d/10-template"
+  assert_file_exists "$D/.local/share/zsh/rc.d/20-template"
 }
 
 @test 'zsh_add_env should link file and regenerate zshenv file' {
@@ -34,6 +38,7 @@ import zsh
   echo "$expected" >"$W/template"
 
   run zsh_add_env "template"
+  assert_success
   assert_symlink_to  "$W/template" "$D/.local/share/zsh/env.d/template"
   assert_file_exists "$D/.zshenv"
   assert_file_contains "$D/.zshenv" "$expected"
@@ -41,12 +46,15 @@ import zsh
 
 @test 'zsh_del_env should unlink file and regenerate zshenv file' {
   mkdir -p "$D/.local/share/zsh/env.d"
-  touch "$D/.local/share/zsh/env.d/template"
+  echo "something" > "$D/.local/share/zsh/env.d/10-template"
+  echo "something" > "$D/.local/share/zsh/env.d/20-template"
 
-  run zsh_del_env "template"
+  run zsh_del_env "10-template"
+  assert_success
   assert_file_exists "$D/.zshenv"
-  assert_file_not_contains "$D/.zshenv" "$D/.local/share/zsh/env.d/template"
-  assert_file_not_exists "$D/.local/share/zsh/env.d/template"
+  assert_file_not_contains "$D/.zshenv" "$D/.local/share/zsh/env.d/10-template"
+  assert_file_not_exists "$D/.local/share/zsh/env.d/10-template"
+  assert_file_exists "$D/.local/share/zsh/env.d/20-template"
 }
 
 @test 'zsh_add_plugin should register antibody plugin and regenerate init script' {
@@ -58,6 +66,7 @@ import zsh
 }
 
 @test 'zsh_add_plugin should regen zshrc file' {
+  mkdir -p "$D/.local/share/zsh/rc.d"
   run zsh_add_plugin 'supercrabtree/k'
   assert_success
   assert_file_exist "$D/.cache/zsh/antibody/init.zsh"
@@ -66,6 +75,7 @@ import zsh
 
 @test 'zsh_del_plugin should remove antibody plugin and regenerate init script' {
   mkdir -p "$D/.local/share/zsh/antibody"
+  mkdir -p "$D/.local/share/zsh/rc.d"
   echo "supercrabtree/k" >> "$D/.local/share/zsh/antibody/plugins"
   echo "some/plugin" >> "$D/.local/share/zsh/antibody/plugins"
 
@@ -87,6 +97,7 @@ import zsh
 
 @test 'zsh_del_plugin should regen zshrc file' {
   mkdir -p "$D/.local/share/zsh/antibody"
+  mkdir -p "$D/.local/share/zsh/rc.d"
   echo "some/plugin" >> "$D/.local/share/zsh/antibody/plugins"
 
   run zsh_del_plugin 'some/plugin'

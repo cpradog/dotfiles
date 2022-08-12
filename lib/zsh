@@ -2,21 +2,37 @@
 
 import files xdg gen
 
+zsh_gen_rc() {
+  templates="$(xdg_get_data 'zsh' 'rc.d')"
+  if [ -d "${templates}" ]; then
+    gen_file "$(file_path '.zshrc')" "$templates"
+  fi
+}
+
+zsh_gen_env() {
+  templates="$(xdg_get_data 'zsh' 'env.d')"
+  if [ -d "${templates}" ]; then
+    gen_file "$(file_path '.zshenv')" "$templates"
+  fi
+}
+
 zsh_add_rc() {
   templates="$(xdg_get_data 'zsh' 'rc.d')"
   source="$1"
   target="${2:-${1##*/}}"
 
   file_link "$source" "$(file_path "$templates" "$target")"
-  gen_file "$(file_path '.zshrc')" "$templates"
+  zsh_gen_rc
 }
 
 zsh_del_rc() {
   templates="$(xdg_get_data 'zsh' 'rc.d')"
   target="$(file_path "$templates" "$*")"
 
-  file_unlink "$target"
-  gen_file "$(file_path '.zshrc')" "$templates"
+  if [ -d "${templates}" ]; then
+    file_unlink "$target"
+    zsh_gen_rc
+  fi
 }
 
 zsh_add_env() {
@@ -25,15 +41,17 @@ zsh_add_env() {
   target="${2:-${1##*/}}"
 
   file_link "$source" "$(file_path "$templates" "$target")"
-  gen_file "$(file_path '.zshenv')" "$templates"
+  zsh_gen_env
 }
 
 zsh_del_env() {
   templates="$(xdg_get_data 'zsh' 'env.d')"
   target="$(file_path "$templates" "$*")"
 
-  file_unlink "$target"
-  gen_file "$(file_path '.zshenv')" "$templates"
+  if [ -d "${templates}" ]; then
+    file_unlink "$target"
+    zsh_gen_env
+  fi
 }
 
 zsh_update_antibody() {
@@ -53,9 +71,9 @@ zsh_update_antibody() {
 
   debug 'updating antibody init script'
   mkdir -p "${antibody_init%/*}"
-  "$antibody_bin" bundle < "$antibody_plugins" > "$antibody_init"
+  "$antibody_bin" bundle <"$antibody_plugins" >"$antibody_init"
 
-  gen_file "$(file_path '.zshrc')" "$templates"
+  zsh_gen_rc
 }
 
 zsh_add_plugin() {
@@ -63,7 +81,7 @@ zsh_add_plugin() {
 
   mkdir -p "${antibody_plugins%/*}"
   for plugin in "$@"; do
-    echo "$plugin" >> "$antibody_plugins"
+    echo "$plugin" >>"$antibody_plugins"
   done
 
   zsh_update_antibody
@@ -79,8 +97,8 @@ zsh_del_plugin() {
   mkdir -p "${antibody_plugins%/*}"
   temp=$(mktemp)
   for plugin in "$@"; do
-    grep -v "$plugin" "$antibody_plugins" > "$temp" \
-      && mv "$temp" "$antibody_plugins"
+    grep -v "$plugin" "$antibody_plugins" >"$temp" &&
+      mv "$temp" "$antibody_plugins"
   done
 
   zsh_update_antibody
