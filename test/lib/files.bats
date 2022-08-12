@@ -124,8 +124,10 @@ import files
 @test "file_unlink should cleanup empty directories in path" {
   mkdir -p "$D/some_directory/with_subdirectories"
   touch "$D/some_directory/with_subdirectories/and_files"
+  touch "$D/some_directory/other_files"
 
-  run file_unlink 'some_directory/with_subdirectories'
+  run file_unlink 'some_directory/with_subdirectories/and_files'
   assert_success
-  assert_dir_not_exists "$D/some_directory"
+  assert_dir_not_exists "$D/some_directory/with_subdirectories"
+  assert_file_exists "$D/some_directory/other_files"
 }

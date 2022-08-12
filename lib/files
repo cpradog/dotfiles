@@ -59,15 +59,11 @@ file_unlink() {
 
   case "$target" in
     $D*)
-      if [ -e "$target" ]; then
-        rm -rf "$target"
+      rm -rf "$target"
 
-        parent="${target%/*}"
-        if [ "$D" != "$parent" ] && [ -e "$parent" ]; then
-          file_unlink "$parent"
-        fi
-      else
-        warn "$target not found"
+      parent="${target%/*}"
+      if [ "$D" != "$parent" ] && [ "$(find "$parent" -type f 2>/dev/null | wc -l)" -eq 0 ]; then
+        file_unlink "$parent"
       fi
       ;;
     *)
