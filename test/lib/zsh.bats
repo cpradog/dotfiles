@@ -57,6 +57,13 @@ import zsh
   assert_file_exist "$D/.cache/zsh/antibody/init.zsh"
 }
 
+@test 'zsh_add_plugin should regen zshrc file' {
+  run zsh_add_plugin 'supercrabtree/k'
+  assert_success
+  assert_file_exist "$D/.cache/zsh/antibody/init.zsh"
+  assert_file_exist "$D/.zshrc"
+}
+
 @test 'zsh_del_plugin should remove antibody plugin and regenerate init script' {
   mkdir -p "$D/.local/share/zsh/antibody"
   echo "supercrabtree/k" >> "$D/.local/share/zsh/antibody/plugins"
@@ -76,4 +83,13 @@ import zsh
   assert_file_not_exist "$D/.local/share/zsh/antibody/plugins"
   assert_file_not_exist "$D/.cache/zsh/antibody/init.zsh"
 
+}
+
+@test 'zsh_del_plugin should regen zshrc file' {
+  mkdir -p "$D/.local/share/zsh/antibody"
+  echo "some/plugin" >> "$D/.local/share/zsh/antibody/plugins"
+
+  run zsh_del_plugin 'some/plugin'
+  assert_success
+  assert_file_exist "$D/.zshrc"
 }

@@ -54,6 +54,8 @@ zsh_update_antibody() {
   debug 'updating antibody init script'
   mkdir -p "${antibody_init%/*}"
   "$antibody_bin" bundle < "$antibody_plugins" > "$antibody_init"
+
+  gen_file "$(file_path '.zshrc')" "$templates"
 }
 
 zsh_add_plugin() {
