@@ -74,7 +74,7 @@ cd "$PKGDIR" 2>/dev/null || die "package not found: $PKGNAME"
 [ -f "$PKGFILE" ] && . "$PKGFILE"
 
 if type "$ACTION" >/dev/null 2>&1; then
-  debug "running '$ACTION' action ..."
+  info "${ACTION}ing ${PKGNAME} ..."
 
   if [ $DOTFILES_TRACE -gt 0 ]; then
     set -o xtrace # enable shell command tracing
