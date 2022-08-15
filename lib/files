@@ -21,37 +21,39 @@ file_link() {
   case "$1" in /*) source="$1" ;; *) source="$(realpath -ms "$W/$1")" ;; esac
   target="$(file_path "${2:-${1##*/}}")"
 
-  if [ -d "$target" ]; then
-    target="$target/${1##*/}"
-  fi
+  if [ -L "$target" ]; then
+    actual="$(readlink -ms "$target")"
+    if [ "$source" = "$actual" ]; then
+      debug "$target already links to $source"
+      true
+    else
+      # TODO: should override the link? should ask the user what to do?
+      warn "$target already exists and links to $actual instead of $source (skipping)"
+      false
+    fi
+  elif [ -f "$target" ]; then
+    # TODO: should override the file? should ask the user what to do?
+    warn "$target already exists (skipping)"
+    false
+  else
+    if [ -d "$target" ]; then
+      target="$target/${1##*/}"
+    fi
 
-  case "$target" in
-    $D*)
-      mkdir -p "${target%/*}"
+    case "$target" in
+      $D*)
+        mkdir -p "${target%/*}"
 
-      if [ ! -e "$target" ] && [ ! -h "$target" ]; then
         debug "creating link: $target -> $source"
         ln -s "$source" "$target"
-      else
-        link=$(readlink -s "$target")
-        if [ "$link" = "$source" ]; then
-          debug "$target already installed (skipping)"
-          true
-        elif [ "$link" = '' ]; then
-          warn "$target already exists"
-          false
-        else
-          warn "$target already exists and links to $link"
-          false
-        fi
-      fi
-      ;;
+        ;;
 
-    *)
-      error "$target is forbidden as it is outside $D"
-      false
-      ;;
-  esac
+      *)
+        error "$target is forbidden as it is outside $D"
+        false
+        ;;
+    esac
+  fi
 }
 
 file_unlink() {
@@ -59,11 +61,30 @@ file_unlink() {
 
   case "$target" in
     $D*)
-      rm -rf "$target"
+      remove_parent=1
+      if [ -L "$target" ]; then
+        source="$(readlink -ms "$target")"
+        debug "removing link: $target -> $source"
+        rm "$target"
+      elif [ -f "$target" ]; then
+        debug "removing file: $target"
+        rm "$target"
+      elif [ -d "$target" ]; then
+        debug "removing directory: $target"
+        rm -rf "$target"
+      elif [ -e "$target" ]; then
+        debug "removing unknown: $target"
+        rm "$target"
+      else
+        debug "$target not found (ignoring)"
+        remove_parent=0
+      fi
 
-      parent="${target%/*}"
-      if [ "$D" != "$parent" ] && [ "$(find "$parent" -type f 2>/dev/null | wc -l)" -eq 0 ]; then
-        file_unlink "$parent"
+      if [ "$remove_parent" -eq 1 ]; then
+        parent="${target%/*}"
+        if [ "$D" != "$parent" ] && [ "$(find "$parent" 2>/dev/null | wc -l)" -le 1 ]; then
+          file_unlink "$parent"
+        fi
       fi
       ;;
     *)

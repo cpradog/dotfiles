@@ -72,7 +72,7 @@ import files
 
   run file_link 'source_file' 'target_file'
   assert_success
-  assert_output --partial 'target_file already installed (skipping)'
+  assert_output --partial "target_file already links to $W/source_file"
 }
 
 @test 'file_link should fail when target file already exists and link to other source' {
@@ -96,6 +96,18 @@ import files
   assert_success
   assert_symlink_to "$source_file" "$D/target_file"
   rm "$source_file"
+}
+
+@test "file_link should not create directories loops" {
+  mkdir -p "$W/dir"
+
+  run file_link 'dir'
+  assert_success
+  assert_symlink_to "$W/dir" "$D/dir"
+
+  run file_link 'dir'
+  assert_success
+  assert_not_exists "$D/dir/dir"
 }
 
 @test "file_unlink should remove file from \$D" {
