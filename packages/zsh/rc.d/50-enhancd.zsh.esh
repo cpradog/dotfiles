@@ -1,0 +1,5 @@
+<% import xdg -%>
+
+ENHANCD_DIR='<%= $(xdg_get_cache 'zsh' 'enhancd') %>'
+ENHANCD_FILTER=fzf
+ENHANCD_DOT_ARG=...

@@ -1,0 +1,2 @@
+<% import xdg -%>
+<% cat < $(xdg_get_cache 'zsh' 'antibody' 'init.zsh') %>

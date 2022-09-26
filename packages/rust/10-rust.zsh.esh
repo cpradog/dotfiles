@@ -1,0 +1,5 @@
+<% import xdg -%>
+
+export UNCRUSTIFY_CONFIG=uncrustify.cfg
+export CARGO_HOME='<%= $(xdg_get_cache 'cargo') %>'
+path+=('<%= $(xdg_get_cache 'cargo' 'bin') %>')

@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# not root?
+if [[ $EUID -ne 0 ]]; then
+
+  # escalate
+  sudo "$0" "$@" || exit $?
+
+  zsh -ci "antibody update" || exit 7
+  doom upgrade || exit 7
+  doom purge || exit 7
+
+  exit 0
+fi
+
+softwareupdate -i -a
+port selfupdate
+port upgrade outdated
+port reclaim
+ncu -g

@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+
+import xdg files
+
+is_available() {
+  exists_command 'mako'
+}
+
+install() {
+  xdg_link_config 'config' 'mako/config'
+}
+
+uninstall() {
+  xdg_unlink_config 'mako/config'
+}

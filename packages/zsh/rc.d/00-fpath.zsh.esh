@@ -1,0 +1,4 @@
+<% import xdg -%>
+
+#enable local scripts
+fpath+=('<%= $(xdg_get_data 'zsh' 'site') %>')

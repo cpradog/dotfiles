@@ -1,0 +1,38 @@
+#!/usr/bin/env sh
+
+import zsh xdg files
+
+is_available() {
+  exists_command 'emacs'
+}
+
+post_install() {
+  warn 'please run "doom install" in a fresh terminal to finish the installation.'
+  warn 'use "doom upgrade" to update installed packages and "doom sync" to apply'
+  warn "configuration changes"
+}
+
+install() {
+  zsh_add_env '10-emacs.zsh.esh'
+  xdg_link_config 'doom'
+
+  EMACSDIR="$(xdg_get_config 'emacs')/"
+  DOOMDIR="$(xdg_get_config 'doom')/"
+  export EMACSDIR DOOMDIR
+
+  if [ ! -d "${EMACSDIR}" ]; then
+    git clone --depth 1 --single-branch https://github.com/doomemacs/doomemacs "${EMACSDIR}"
+    # doom install report too many open files on first install?
+    # "$(xdg_get_config 'emacs' 'bin' 'doom')" install
+  # else
+    # "$(xdg_get_config 'emacs' 'bin' 'doom')" upgrade --force --jobs "$(nproc)"
+  fi
+
+  unset EMACSDIR DOOMDIR
+}
+
+uninstall() {
+  zsh_del_env '10-emacs.zsh.esh'
+  xdg_unlink_config 'emacs'
+  xdg_unlink_config 'doom'
+}

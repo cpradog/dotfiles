@@ -1,0 +1,3 @@
+<% import xdg -%>
+
+path+=('<%= $(xdg_get_config 'emacs' 'bin') %>')

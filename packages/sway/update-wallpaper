@@ -1,0 +1,81 @@
+#!/bin/zsh
+WALLPAPERS_DIR="${XDG_CACHE_HOME}/wallpapers"
+LOGIN_WALLPAPER="/etc/greetd/wallpaper.jpg"
+KEEP_DAYS=365
+
+function test_conectivity {
+  local online=0
+
+  for iface in $(ls /sys/class/net/ | grep -v lo | grep -v sit0)
+  do
+    if [[ $(cat /sys/class/net/${iface}/carrier) = 1 ]]
+    then
+      online=1
+    fi
+  done
+
+  echo $online
+}
+
+function download_bing {
+  local result=$(curl -s "https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=es")
+  local url=$(echo "$result" | jq -r '.images[0].url')
+  local filename=$(echo "$result" | jq -r '.images[0].startdate')
+  local wallpaper="${WALLPAPERS_DIR}/bing_${filename}.jpg"
+  curl -s "https://www.bing.com${url}" -o ${wallpaper}
+}
+
+function download_wallhaven {
+  local result=$(curl -s "https://wallhaven.cc/api/v1/search?atleast=3840x2160&categories=100&q=%2Bnature%20-tv%20-anime%20-vide-games%20-comics%20-cream%20-abstract%20-artwork%20-car&page=1&seed=${RANDOM}")
+  local url=$(echo "$result" | jq -r '.data[0].path')
+  local filename=$(echo "$result" | jq -r '.data[0].id')
+  local wallpaper="${WALLPAPERS_DIR}/wallhaven_${filename}.jpg"
+  curl -s ${url} -o ${wallpaper}
+}
+
+function download_wallpaper {
+  if [[ $(test_conectivity) = 1 ]]
+  then
+    case $(( ( RANDOM % 2 ) + 1 )) in
+      1)
+        echo 'downloaded from bing'
+        download_bing
+        ;;
+      2)
+        echo 'downloaded from wallhaven.cc'
+        download_wallhaven
+        ;;
+      *)
+        echo 'invalid random!! try again ...'
+        download_wallpaper
+        ;;
+    esac
+  fi
+}
+
+function remove_older_wallpapers {
+  find ${WALLPAPERS_DIR} -mtime +${KEEP_DAYS} -type f -delete
+}
+
+function get_random_wallpaper {
+  echo ${WALLPAPERS_DIR}/$(ls ${WALLPAPERS_DIR} | sort -R | tail -1)
+}
+
+function set_desktop_wallpaper {
+  local outputs=(${(@f)$(swaymsg -rt get_outputs | jq -r '.[].name')})
+  for output in "${outputs[@]}"
+  do
+    swaymsg output "${output}" background "$(get_random_wallpaper)" fill > /dev/null
+  done
+}
+
+function set_login_wallpaper {
+  cp --no-preserve=owner,mode $(get_random_wallpaper) ${LOGIN_WALLPAPER}
+}
+
+source ~/.local/bin/load-env
+mkdir -p "${WALLPAPERS_DIR}"
+download_wallpaper
+remove_older_wallpapers
+set_desktop_wallpaper
+set_login_wallpaper

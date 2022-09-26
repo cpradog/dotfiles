@@ -1,0 +1,4 @@
+<% import xdg -%>
+
+export GOPATH='<%= $(xdg_get_data 'go') %>'
+path+=('<%= $(xdg_get_data 'go' 'bin') %>')

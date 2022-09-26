@@ -1,0 +1,30 @@
+#!/usr/bin/env sh
+
+import xdg zsh
+
+install() {
+  zsh_add_rc '50-node.zsh.esh'
+  zsh_add_env '10-node.zsh.esh'
+
+  # node version manager integrated with zsh
+  zsh_add_plugin 'lukechilds/zsh-nvm'
+
+  # npm autocomplete for zsh
+  zsh_add_plugin 'lukechilds/zsh-better-npm-completion'
+
+  # node helpers for zsh
+  zsh_add_plugin 'ohmyzsh/ohmyzsh path:plugins/npm'
+
+  mkdir -p "$(xdg_get_config 'npm')"
+  echo "cache=$(xdg_get_cache 'npm')" > "$(xdg_get_config 'npm/npmrc')"
+}
+
+uninstall() {
+  zsh_del_env '10-node.zsh.esh'
+  zsh_del_rc '50-node.zsh.esh'
+  zsh_del_plugin 'lukechilds/zsh-nvm'
+  zsh_del_plugin 'lukechilds/zsh-better-npm-completion'
+  zsh_del_plugin 'ohmyzsh/ohmyzsh path:plugins/npm'
+  xdg_unlink_data 'nvm'
+  xdg_unlink_config 'npm/npmrc'
+}

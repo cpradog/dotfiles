@@ -1,0 +1,8 @@
+[Unit]
+Description=Update desktop wallpaper
+
+[Service]
+ExecStart=%h/.local/bin/update-wallpaper
+
+[Install]
+WantedBy=default.target

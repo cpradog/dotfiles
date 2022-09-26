@@ -1,0 +1,24 @@
+{
+  "label" : "lock",
+  "action" : "~/.local/bin/lock-screen",
+  "text" : "Lock",
+  "keybind" : "l"
+}
+{
+  "label" : "logout",
+  "action" : "loginctl terminate-user $UID",
+  "text" : "Logout",
+  "keybind" : "e"
+}
+{
+  "label" : "shutdown",
+  "action" : "loginctl poweroff",
+  "text" : "Shutdown",
+  "keybind" : "s"
+}
+{
+  "label" : "reboot",
+  "action" : "loginctl reboot",
+  "text" : "Reboot",
+  "keybind" : "r"
+}

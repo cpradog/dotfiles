@@ -1,0 +1,25 @@
+max-icon-size=32
+padding=10,0,10,20
+font=JetBrainsMonoMedium Nerd Font Mono 9
+background-color=#000000bb
+text-color=#ffffff
+border-color=#009ddc99
+progress-color=over #c00000
+format=<b>%a\n%s</b>\n\n%b
+width=400
+height=300
+
+[hidden]
+format=(and %h more)
+
+[urgency=high]
+background-color=#c00000
+border-color=#ff0000
+default-timeout=0
+ignore-timeout=1
+
+[urgency=low]
+default-timeout=2500
+
+[urgency=normal]
+default-timeout=5000

@@ -1,0 +1,36 @@
+#!/usr/bin/env sh
+
+import xdg files
+
+is_available() {
+  exists_command 'sway'
+}
+
+install() {
+  xdg_link_bin 'load-env'
+  xdg_link_bin 'save-env'
+  xdg_link_bin 'update-wallpaper'
+  xdg_link_bin 'lock-screen'
+  xdg_link_config 'config' 'sway/config'
+
+  if command -v systemctl > /dev/null; then
+    xdg_link_config 'update-wallpaper.service' 'systemd/user/sway-update-wallpaper.service'
+    xdg_link_config 'update-wallpaper.timer' 'systemd/user/sway-update-wallpaper.timer'
+
+    systemctl --user enable --now sway-update-wallpaper.timer
+  fi
+}
+
+uninstall() {
+  xdg_unlink_bin 'load-env'
+  xdg_unlink_bin 'save-env'
+  xdg_unlink_bin 'update-wallpaper'
+  xdg_unlink_bin 'lock-screen'
+  xdg_unlink_config 'sway'
+
+  if command -v systemctl > /dev/null; then
+    systemctl --user disable --now sway-update-wallpaper.timer
+    xdg_unlink_config 'systemd/user/sway-update-wallpaper.service'
+    xdg_unlink_config 'systemd/user/sway-update-wallpaper.timer'
+  fi
+}

@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+
+import xdg files
+
+is_available() {
+  exists_command 'mbsync'
+}
+
+install() {
+  xdg_link_config 'mbsync.conf' 'mbsync/config'
+  xdg_link_config 'msmtp.conf' 'msmtp/config'
+  xdg_link_bin 'mail-sync'
+}
+
+uninstall() {
+  xdg_unlink_config 'mbsync'
+  xdg_unlink_config 'msmtp'
+  xdg_unlink_bin 'mail-sync'
+}

@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+
+import zsh files
+
+is_available() {
+  exists_command 'macports'
+}
+
+install() {
+  zsh_add_env '10-macports.zsh'
+}
+
+uninstall() {
+  zsh_del_env '10-macports.zsh'
+}

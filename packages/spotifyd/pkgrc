@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+
+import xdg files
+
+is_available() {
+  exists_command 'spotifyd'
+}
+
+install() {
+  xdg_link_config 'spotifyd.conf' 'spotifyd/spotifyd.conf'
+}
+
+uninstall() {
+  xdg_unlink_config 'spotifyd'
+}

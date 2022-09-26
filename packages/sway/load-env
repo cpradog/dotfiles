@@ -1,0 +1,6 @@
+#!/bin/sh
+ENVFILE="/run/user/${UID}/env"
+
+if [[ -f "${ENVFILE}" ]]; then
+  source ${ENVFILE}
+fi

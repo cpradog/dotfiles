@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+
+import xdg zsh
+
+install() {
+  xdg_link_config 'user-dirs.conf'
+  zsh_add_env '10-xdg.zsh.esh'
+}
+
+uninstall() {
+  xdg_unlink_config 'user-dirs.conf'
+  zsh_del_env '10-xdg.zsh.esh'
+}

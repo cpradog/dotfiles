@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+
+import zsh xdg files
+
+is_available() {
+  exists_command 'java'
+}
+
+install() {
+  zsh_add_rc '60-java.zsh.esh'
+  zsh_add_env '10-java-zsh.esh'
+  xdg_link_config 'gradle.properties' 'gradle/gradle.properties'
+}
+
+uninstall() {
+  zsh_del_rc '60-java.zsh.esh'
+  zsh_del_env '10-java-zsh.esh'
+  xdg_unlink_config 'gradle'
+}

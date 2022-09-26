@@ -1,0 +1,37 @@
+#!/usr/bin/env sh
+
+import xdg
+
+__is_gentoo() {
+  command -v emerge > /dev/null
+}
+
+__is_macos() {
+  uname | grep -qF 'Darwin'
+}
+
+install() {
+  xdg_link_bin 'detach'
+  xdg_link_bin 'run-once'
+
+  if __is_gentoo; then
+    xdg_link_bin 'emerge-world'
+  fi
+
+  if __is_macos; then
+    xdg_link_bin 'update-osx'
+  fi
+}
+
+uninstall() {
+  xdg_unlink_bin 'detach'
+  xdg_unlink_bin 'run-once'
+
+  if __is_gentoo; then
+    xdg_unlink_bin 'emerge-world'
+  fi
+
+  if __is_macos; then
+    xdg_unlink_bin 'update-osx'
+  fi
+}

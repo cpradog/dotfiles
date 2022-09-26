@@ -1,0 +1,22 @@
+#!/bin/bash
+restart=0
+
+if [[ "$1" = '--restart' ]]
+then
+  shift
+  restart=1
+fi
+
+current_pid=$(pgrep -u "$USER" -x "$1" || echo '')
+if [[ "${current_pid}" != '' ]]
+then
+  if [[ $restart = 1 ]]
+  then
+    kill "$current_pid"
+  else
+    exit 0
+  fi
+fi
+
+"$@" &
+disown

@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+
+import xdg files
+
+is_available() {
+  exists_command 'alacritty'
+}
+
+install() {
+  xdg_link_config 'alacritty.yml' 'alacritty/alacritty.yml'
+}
+
+uninstall() {
+  xdg_unlink_config 'alacritty'
+}

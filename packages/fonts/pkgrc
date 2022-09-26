@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+
+import xdg
+
+install() {
+  find "$W/data" -type f | while read -r file; do
+    xdg_link_data "$file" "fonts/${file##*/data/}"
+  done
+}
+
+uninstall() {
+  find "$W/data" -type f | while read -r file; do
+    xdg_unlink_data "fonts/${file##*/data/}"
+  done
+}

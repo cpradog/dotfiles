@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+
+import xdg zsh files
+
+is_available() {
+  exists_command 'nvim'
+}
+
+install() {
+  xdg_link_config 'nvim'
+  zsh_add_rc '60-vim.zsh.esh'
+}
+
+uninstall() {
+  xdg_unlink_config 'nvim'
+  zsh_del_rc '60-vim.zsh.esh'
+}

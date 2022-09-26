@@ -1,0 +1,26 @@
+#!/bin/zsh
+WALLPAPERS_DIR="${XDG_CACHE_HOME}/wallpapers"
+
+args=(
+  --daemonize
+  --show-failed-attempts
+  --clock
+  --indicator
+  --fade-in 0.3
+  --effect-blur 10x10
+  --scaling fill
+  --color 000000
+)
+
+function get_random_wallpaper {
+  echo ${WALLPAPERS_DIR}/$(ls ${WALLPAPERS_DIR} | sort -R | tail -1)
+}
+
+outputs=(${(@f)$(swaymsg -rt get_outputs | jq -r '.[].name')})
+for output in "${outputs[@]}"
+do
+  args+=(--image ${output}:$(get_random_wallpaper))
+done
+
+swaylock $args
+

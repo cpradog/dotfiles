@@ -1,0 +1,7 @@
+#!/bin/sh
+xset -dpms
+xset s off
+xset s noblank
+xrandr --output DisplayPort-0 --primary --pos 0x725
+xrandr --output DisplayPort-1 --pos 3840x0 --rotate right
+i3

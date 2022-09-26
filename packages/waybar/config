@@ -1,0 +1,81 @@
+{
+  "layer": "bottom",
+  "position": "top",
+  "modules-left": [
+    "sway/workspaces",
+    "sway/mode"
+  ],
+  "modules-center": [
+    "sway/window"
+  ],
+  "modules-right": [
+    "custom/spotify",
+    "pulseaudio",
+    "idle_inhibitor",
+    "tray",
+    "clock"
+  ],
+  "sway/mode": {
+    "format": " {}"
+  },
+  "sway/workspaces": {
+    "format": "{name}",
+    "disable-scroll": true
+  },
+  "sway/window": {
+    "max-length": 80,
+    "tooltip": true,
+    "height": 10,
+    "max-length": 150,
+    "rewrite": {
+      "(.*) - Mozilla Firefox": "🌎 $1",
+      "(.*) - NVIM": " $1",
+      "(.*) - zsh": " $1"
+    }
+  },
+  "custom/spotify": {
+    "interval": "once",
+    "exec": "~/.config/waybar/modules/spt.sh",
+    "exec-if": "false && pgrep spotifyd",
+    "escape": true,
+    "height": 10,
+    "max-length": 50,
+    "on-click": "spt playback --toggle",
+    "on-click-right": "kitty spt",
+    "on-scroll-up": "spt playback --next",
+    "on-scroll-down": "spt playback --previous"
+  },
+  "pulseaudio": {
+    "format": "{icon}",
+    "format-muted": "ﱝ",
+    "format-icons": {
+      "default": [
+        "",
+        "",
+        "",
+        "墳"
+      ]
+    },
+    "scroll-step": 5,
+    "on-click": "pulseaudio-ctl mute",
+    "on-scroll-down": "pulseaudio-ctl down",
+    "on-scroll-up": "pulseaudio-ctl up",
+    "tooltip": true
+  },
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": "",
+      "deactivated": "ﴹ"
+    },
+    "tooltip": true
+  },
+  "tray": {
+    "icon-size": 18
+  },
+  "clock": {
+    "format": "{:%a %d %b %H:%M:%S}",
+    "interval": 1,
+    "tooltip": false
+  }
+}

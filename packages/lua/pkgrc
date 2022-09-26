@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+
+import zsh xdg
+
+install() {
+  zsh_add_env '10-lua.zsh.esh'
+  xdg_link_config 'luarocks.lua' 'luarocks/config.lua'
+}
+
+uninstall() {
+  zsh_del_env '10-lua.zsh.esh'
+  xdg_unlink_config 'luarocks'
+}

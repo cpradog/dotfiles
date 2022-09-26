@@ -1,0 +1,4 @@
+<% import xdg -%>
+
+export NPM_CONFIG_USERCONFIG='<%= $(xdg_get_config 'npm' 'npmrc') %>'
+export NODE_REPL_HISTORY=''

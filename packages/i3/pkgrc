@@ -1,0 +1,32 @@
+#!/usr/bin/env sh
+
+import xdg files
+
+is_available() {
+  exists_command 'i3'
+}
+
+install() {
+  xdg_link_bin 'i3-download-wallpaper'
+  xdg_link_config 'config' 'i3/config'
+  file_link 'xinitrc' '.xinitrc'
+
+  if command -v systemctl > /dev/null; then
+    xdg_link_config 'i3-update-wallpaper.service' 'systemd/user/i3-update-wallpaper.service'
+    xdg_link_config 'i3-update-wallpaper.timer' 'systemd/user/i3-update-wallpaper.timer'
+
+    systemctl --user enable --now i3-update-wallpaper.timer
+  fi
+}
+
+uninstall() {
+  xdg_unlink_bin 'i3-download-wallpaper'
+  xdg_unlink_config 'i3/config'
+  file_unlink '.xinitrc'
+
+  if command -v systemctl > /dev/null; then
+    systemctl --user disable --now i3-update-wallpaper.timer
+    xdg_unlink_config 'systemd/user/i3-update-wallpaper.service'
+    xdg_unlink_config 'systemd/user/i3-update-wallpaper.timer'
+  fi
+}

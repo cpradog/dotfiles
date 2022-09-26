@@ -1,0 +1,9 @@
+[Unit]
+Description=Update i3 window manager wallpaper every 5 minutes
+
+[Timer]
+OnBootSec=0s
+OnUnitActiveSec=5m
+
+[Install]
+WantedBy=timers.target

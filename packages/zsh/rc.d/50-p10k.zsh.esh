@@ -1,0 +1,3 @@
+<% import xdg -%>
+source "<%= $(xdg_get_cache 'p10k-instant-prompt') %>-${(%):-%n}.zsh" 2>/dev/null
+<% cat < $(xdg_get_config 'zsh' 'p10k.zsh') -%>

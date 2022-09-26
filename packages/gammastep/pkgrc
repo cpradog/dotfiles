@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+
+import xdg files
+
+is_available() {
+  exists_command 'gammastep'
+}
+
+install() {
+  xdg_link_config 'config.ini' 'gammastep/config.ini'
+}
+
+uninstall() {
+  xdg_unlink_config 'gammastep'
+}

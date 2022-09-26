@@ -1,0 +1,4 @@
+<% if [ "$(uname)" == 'Linux' ]; then %>
+export LC_ALL=es_ES.utf8
+export LANG=es_ES.utf8
+<% fi -%>

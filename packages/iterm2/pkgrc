@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+
+import zsh xdg files
+
+is_available() {
+  # TODO: review if this path is correct on OSX
+  exists_command '/Applications/Iterm.app/Contents/MacOs/iTerm2'
+}
+
+install() {
+  iterm2_zsh_integration="$(xdg_get_data 'zsh' 'iterm2_shell_integration.zsh')"
+  if [ -e "${iterm2_zsh_integration}" ]; then
+    zsh_add_rc "${iterm2_zsh_integration}" '60-iterm2.zsh'
+  fi
+}
+
+uninstall() {
+  zsh_del_rc '60-iterm2.zsh'
+}

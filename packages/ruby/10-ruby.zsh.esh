@@ -1,0 +1,5 @@
+<% import xdg -%>
+<% if command -v ruby > /dev/null && command -v gem > /dev/null; then %>
+# enable ruby gems
+path+=("<%= $(ruby -r rubygems -e 'puts Gem.user_dir') %>/bin")
+<% fi -%>

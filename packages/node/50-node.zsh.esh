@@ -1,0 +1,5 @@
+<% import xdg -%>
+
+NVM_DIR='<%= $(xdg_get_data 'nvm') %>'
+NVM_LAZY_LOAD=false
+NVM_AUTO_USE=false

@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+
+import xdg files
+
+is_available() {
+  exists_command 'hledger'
+}
+
+install() {
+  xdg_link_bin 'ledger'
+}
+
+uninstall() {
+  xdg_unlink_bin 'ledger'
+}

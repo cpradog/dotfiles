@@ -1,0 +1,8 @@
+<% if [ "$(uname)" == 'Linux' ]; then %>
+# enable Open JDK 11 as default java
+export JAVA_HOME=/opt/openjdk-bin-11
+path=(${JAVA_HOME}/bin $path)
+
+# move gradle configuration out of home root.
+export GRADLE_USER_HOME=${XDG_CONFIG_HOME}/gradle
+<% fi -%>

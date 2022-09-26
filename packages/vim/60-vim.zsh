@@ -1,0 +1,7 @@
+alias vi='nvim'
+alias vim='nvim'
+alias vimdiff='nvim -d'
+alias vir='nvr -s'
+alias vimr='nvr -s'
+alias nvimr='nvr -s'
+alias vimdiffr='nvr -s -d'

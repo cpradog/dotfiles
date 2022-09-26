@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+
+import xdg files
+
+is_available() {
+  exists_command 'wlogout'
+}
+
+install() {
+  xdg_link_config 'layout' 'wlogout/layout'
+  xdg_link_config 'style.css' 'wlogout/style.css'
+}
+
+uninstall() {
+  xdg_unlink_config 'wlogout'
+}

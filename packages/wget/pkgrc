@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+
+import xdg files
+
+is_available() {
+  exists_command 'wget'
+}
+
+install() {
+  mkdir -p "$(xdg_get_config 'wget')"
+  echo "hsts-file=$(xdg_get_cache 'wget-hsts')" >"$(xdg_get_config 'wget' 'wgetrc')"
+}
+
+uninstall() {
+  xdg_unlink_config 'wget'
+}

@@ -1,0 +1,66 @@
+#!/usr/bin/env sh
+
+import zsh
+
+install() {
+  zsh_add_rc 'rc.d/00-fpath.zsh.esh'
+  zsh_add_rc 'rc.d/10-history.zsh.esh'
+  zsh_add_rc 'rc.d/10-globbing.zsh'
+  zsh_add_rc 'rc.d/10-completion.zsh.esh'
+  zsh_add_rc 'rc.d/59-antibody.zsh.esh'
+  zsh_add_rc 'rc.d/90-aliases.zsh.esh'
+  zsh_add_rc 'rc.d/90-keybindings.zsh'
+  zsh_add_env 'env.d/10-locale.zsh.esh'
+
+  # Powerlevel10k theme
+  zsh_add_plugin 'romkatv/powerlevel10k path:powerlevel10k.zsh-theme'
+  xdg_link_config 'p10k.zsh' 'zsh/p10k.zsh'
+  zsh_add_rc 'rc.d/50-p10k.zsh.esh'
+  zsh_add_rc 'rc.d/60-p10k-pairing.zsh'
+
+  # directory listing for zsh with git features
+  zsh_add_plugin 'supercrabtree/k'
+
+  # remember to use defined aliases
+  zsh_add_plugin 'djui/alias-tips'
+
+  # zsh calculator
+  zsh_add_plugin 'arzzen/calc.plugin.zsh'
+
+  # docker helper
+  zsh_add_plugin 'ohmyzsh/ohmyzsh path:plugins/docker'
+
+  # sudo helper
+  zsh_add_plugin 'ohmyzsh/ohmyzsh path:plugins/sudo'
+
+  # fd
+  zsh_add_plugin 'ohmyzsh/ohmyzsh path:plugins/fd'
+
+  # gradle
+  zsh_add_plugin 'ohmyzsh/ohmyzsh path:plugins/gradle'
+
+  # syntax highlight
+  zsh_add_plugin 'zdharma-continuum/fast-syntax-highlighting'
+
+  # enhanced cd command
+  zsh_add_plugin 'b4b4r07/enhancd'
+  zsh_add_rc 'rc.d/50-enhancd.zsh.esh'
+
+  # enhanced history
+  zsh_add_plugin 'zsh-users/zsh-history-substring-search'
+
+  # fzf integration
+  zsh_add_rc 'rc.d/50-fzf.zsh.esh'
+
+  # timewarrior
+  zsh_add_plugin 'svenXY/timewarrior'
+}
+
+uninstall() {
+  xdg_unlink_data 'zsh'
+  xdg_unlink_config 'zsh'
+  xdg_unlink_cache 'zsh'
+  xdg_unlink_bin 'antibody'
+  file_unlink '.zshrc'
+  file_unlink '.zshenv'
+}

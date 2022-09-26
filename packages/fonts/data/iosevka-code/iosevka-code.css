@@ -1,0 +1,140 @@
+
+@font-face {
+	font-family: 'Iosevka Code Web';
+	font-display: swap;
+	font-weight: 400;
+	font-stretch: normal;
+	font-style: normal;
+	src: url('ttf/iosevka-code-regular.ttf') format('truetype'), url('woff2/iosevka-code-regular.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'Iosevka Code Web';
+	font-display: swap;
+	font-weight: 400;
+	font-stretch: expanded;
+	font-style: normal;
+	src: url('ttf/iosevka-code-extended.ttf') format('truetype'), url('woff2/iosevka-code-extended.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'Iosevka Code Web';
+	font-display: swap;
+	font-weight: 400;
+	font-stretch: normal;
+	font-style: oblique;
+	src: url('ttf/iosevka-code-oblique.ttf') format('truetype'), url('woff2/iosevka-code-oblique.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'Iosevka Code Web Oblique';
+	font-display: swap;
+	font-weight: 400;
+	font-stretch: normal;
+	src: url('ttf/iosevka-code-oblique.ttf') format('truetype'), url('woff2/iosevka-code-oblique.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'Iosevka Code Web';
+	font-display: swap;
+	font-weight: 400;
+	font-stretch: expanded;
+	font-style: oblique;
+	src: url('ttf/iosevka-code-extendedoblique.ttf') format('truetype'), url('woff2/iosevka-code-extendedoblique.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'Iosevka Code Web Oblique';
+	font-display: swap;
+	font-weight: 400;
+	font-stretch: expanded;
+	src: url('ttf/iosevka-code-extendedoblique.ttf') format('truetype'), url('woff2/iosevka-code-extendedoblique.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'Iosevka Code Web';
+	font-display: swap;
+	font-weight: 400;
+	font-stretch: normal;
+	font-style: italic;
+	src: url('ttf/iosevka-code-italic.ttf') format('truetype'), url('woff2/iosevka-code-italic.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'Iosevka Code Web';
+	font-display: swap;
+	font-weight: 400;
+	font-stretch: expanded;
+	font-style: italic;
+	src: url('ttf/iosevka-code-extendeditalic.ttf') format('truetype'), url('woff2/iosevka-code-extendeditalic.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'Iosevka Code Web';
+	font-display: swap;
+	font-weight: 700;
+	font-stretch: normal;
+	font-style: normal;
+	src: url('ttf/iosevka-code-bold.ttf') format('truetype'), url('woff2/iosevka-code-bold.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'Iosevka Code Web';
+	font-display: swap;
+	font-weight: 700;
+	font-stretch: expanded;
+	font-style: normal;
+	src: url('ttf/iosevka-code-extendedbold.ttf') format('truetype'), url('woff2/iosevka-code-extendedbold.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'Iosevka Code Web';
+	font-display: swap;
+	font-weight: 700;
+	font-stretch: normal;
+	font-style: oblique;
+	src: url('ttf/iosevka-code-boldoblique.ttf') format('truetype'), url('woff2/iosevka-code-boldoblique.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'Iosevka Code Web Oblique';
+	font-display: swap;
+	font-weight: 700;
+	font-stretch: normal;
+	src: url('ttf/iosevka-code-boldoblique.ttf') format('truetype'), url('woff2/iosevka-code-boldoblique.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'Iosevka Code Web';
+	font-display: swap;
+	font-weight: 700;
+	font-stretch: expanded;
+	font-style: oblique;
+	src: url('ttf/iosevka-code-extendedboldoblique.ttf') format('truetype'), url('woff2/iosevka-code-extendedboldoblique.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'Iosevka Code Web Oblique';
+	font-display: swap;
+	font-weight: 700;
+	font-stretch: expanded;
+	src: url('ttf/iosevka-code-extendedboldoblique.ttf') format('truetype'), url('woff2/iosevka-code-extendedboldoblique.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'Iosevka Code Web';
+	font-display: swap;
+	font-weight: 700;
+	font-stretch: normal;
+	font-style: italic;
+	src: url('ttf/iosevka-code-bolditalic.ttf') format('truetype'), url('woff2/iosevka-code-bolditalic.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'Iosevka Code Web';
+	font-display: swap;
+	font-weight: 700;
+	font-stretch: expanded;
+	font-style: italic;
+	src: url('ttf/iosevka-code-extendedbolditalic.ttf') format('truetype'), url('woff2/iosevka-code-extendedbolditalic.woff2') format('woff2');
+}

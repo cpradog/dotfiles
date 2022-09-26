@@ -1,0 +1,5 @@
+<% if command -v luarocks > /dev/null; then -%>
+<% import xdg -%>
+export LUAROCKS_CONFIG='<%= $(xdg_get_config 'luarocks' 'config.lua') %>'
+<% luarocks path %>
+<% fi -%>

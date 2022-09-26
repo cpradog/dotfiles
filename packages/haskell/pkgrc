@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+
+import xdg zsh files
+
+is_available() {
+  exists_command 'cabal'
+}
+
+install() {
+  zsh_add_rc '80-haskell.zsh.esh'
+  xdg_link_config 'cabal.config' 'cabal/config'
+}
+
+uninstall() {
+  zsh_del_rc '80-haskell.zsh.esh'
+  xdg_unlink_config 'cabal'
+}

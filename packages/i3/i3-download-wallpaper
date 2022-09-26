@@ -1,0 +1,82 @@
+#!/bin/zsh
+WALLPAPERS_DIR="${XDG_CACHE_HOME}/wallpapers"
+LOGIN_WALLPAPER="${XDG_CACHE_HOME}/wallpaper.jpg"
+KEEP_DAYS=365
+
+function test_conectivity {
+  local online=0
+
+  for iface in $(ls /sys/class/net/ | grep -v lo | grep -v sit0)
+  do
+    if [[ $(cat /sys/class/net/${iface}/carrier) = 1 ]]
+    then
+      online=1
+    fi
+  done
+
+  echo $online
+}
+
+function download_bing {
+  local result=$(curl -s "https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=es")
+  local url=$(echo "$result" | jq -r '.images[0].url')
+  local filename=$(echo "$result" | jq -r '.images[0].startdate')
+  local wallpaper="${WALLPAPERS_DIR}/bing_${filename}.jpg"
+  curl -s "https://www.bing.com${url}" -o ${wallpaper}
+}
+
+function download_wallhaven {
+  local result=$(curl -s "https://wallhaven.cc/api/v1/search?atleast=1920x1080&categories=100&q=+nature -tv -anime -vide-games -comics -cream -abstract -artwork -car&page=1&seed=${RANDOM}")
+  local url=$(echo "$result" | jq -r '.data[0].path')
+  local filename=$(echo "$result" | jq -r '.data[0].id')
+  local wallpaper="${WALLPAPERS_DIR}/wallhaven_${filename}.jpg"
+  curl -s ${url} -o ${wallpaper}
+}
+
+function download_wallpaper {
+  if [[ $(test_conectivity) = 1 ]]
+  then
+    case $(( ( RANDOM % 2 ) + 1 )) in
+      1)
+        echo 'downloaded from bing'
+        download_bing
+        ;;
+      2)
+        echo 'downloaded from wallhaven.cc'
+        download_wallhaven
+        ;;
+      *)
+        echo 'invalid random!! try again ...'
+        download_wallpaper
+        ;;
+    esac
+  fi
+}
+
+function remove_older_wallpapers {
+  find ${WALLPAPERS_DIR} -mtime +${KEEP_DAYS} -type f -delete
+}
+
+function get_random_wallpaper {
+  echo ${WALLPAPERS_DIR}/$(ls ${WALLPAPERS_DIR} | sort -R | tail -1)
+}
+
+function set_desktop_wallpaper {
+  local cmd='feh --no-fehbg'
+  local outputs=("${(@f)$(i3-msg -t get_outputs | jq -r '.[].name')}")
+  for output in "${outputs[@]}"
+  do
+    cmd="$cmd --bg-fill $(get_random_wallpaper)"
+  done
+
+  eval $cmd
+}
+
+function set_login_wallpaper {
+  ln -sf $(get_random_wallpaper) ${LOGIN_WALLPAPER}
+}
+
+download_wallpaper
+remove_older_wallpapers
+set_desktop_wallpaper
+set_login_wallpaper

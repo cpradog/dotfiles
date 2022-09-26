@@ -1,0 +1,8 @@
+[Unit]
+Description=Update i3 window manager wallpaper
+
+[Service]
+ExecStart=%h/.local/bin/i3-update-wallpaper
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,168 @@
+### Variables
+set $mod Mod4
+set $term alacritty
+set $menu sirula
+set $logout wlogout -b 4 -c 20 -r 100
+set $screenshot grim ~/pictures/screenshots/scrn-$(date +"%Y-%m-%d-%H-%M-%S").png
+set $screenclip slurp | grim -g - ~/pictures/screenshots/scrn-$(date +"%Y-%m-%d-%H-%M-%S").png
+set $lock ~/.local/bin/lock-screen
+
+### Output configuration
+output DP-1 resolution 3840x2160 position 0,470  scale 1.5 scale_filter smart adaptive_sync on
+output DP-2 resolution 3840x2160 position 2560,0 scale 1.5 scale_filter smart adaptive_sync on transform 90
+workspace 1   output DP-1
+workspace 10  output DP-2
+
+### Input configuration
+input "type:keyboard" {
+  xkb_layout us
+  xkb_options ctrl:nocaps
+}
+
+focus_follows_mouse no
+
+### Theme
+
+# Colors                border      background  text        indicator   childborder
+client.focused          '#009ddc'   '#009ddc'   '#d9d8d8'   '#d9d8d8'   '#009ddc'
+client.focused_inactive '#231f20'   '#231f20'   '#d9d8d8'   '#231f20'   '#231f20'
+client.unfocused        '#231f20'   '#231f20'   '#d9d8d8'   '#231f20'   '#231f20'
+client.urgent           '#ee2e24'   '#ee2e24'   '#d9d8d8'   '#ee2e24'   '#ee2e24'
+
+# Font
+font 'pango:JetBrainsMonoMedium Nerd Font Mono' 8
+
+# Window borders
+default_border              pixel 0
+default_floating_border     normal
+hide_edge_borders           smart
+smart_gaps                  on
+gaps                        inner 10
+floating_modifier           $mod normal
+
+### Key bindings
+
+# shortcuts
+bindsym $mod+Return         exec $term
+bindsym $mod+Print          exec $screenshot
+bindsym $mod+Shift+Print    exec $screenclip
+bindsym $mod+d              exec $menu
+
+bindsym $mod+Shift+q        kill
+bindsym $mod+Shift+c        reload
+bindsym $mod+Shift+e        exec $logout
+bindsym $mod+Shift+z        exec $lock
+
+# Move focus
+bindsym $mod+h              focus left
+bindsym $mod+j              focus down
+bindsym $mod+k              focus up
+bindsym $mod+l              focus right
+bindsym $mod+Left           focus left
+bindsym $mod+Down           focus down
+bindsym $mod+Up             focus up
+bindsym $mod+Right          focus right
+bindsym $mod+a              focus parent
+
+# Rearrange window
+bindsym $mod+Shift+h        move left
+bindsym $mod+Shift+j        move down
+bindsym $mod+Shift+k        move up
+bindsym $mod+Shift+l        move right
+bindsym $mod+Shift+Left     move left
+bindsym $mod+Shift+Down     move down
+bindsym $mod+Shift+Up       move up
+bindsym $mod+Shift+Right    move right
+
+# Switch to workspace
+bindsym $mod+1              workspace number 1
+bindsym $mod+2              workspace number 2
+bindsym $mod+3              workspace number 3
+bindsym $mod+4              workspace number 4
+bindsym $mod+5              workspace number 5
+bindsym $mod+6              workspace number 6
+bindsym $mod+7              workspace number 7
+bindsym $mod+8              workspace number 8
+bindsym $mod+9              workspace number 9
+bindsym $mod+0              workspace number 10
+
+# Move focused container to workspace
+bindsym $mod+Shift+1        move container to workspace number 1
+bindsym $mod+Shift+2        move container to workspace number 2
+bindsym $mod+Shift+3        move container to workspace number 3
+bindsym $mod+Shift+4        move container to workspace number 4
+bindsym $mod+Shift+5        move container to workspace number 5
+bindsym $mod+Shift+6        move container to workspace number 6
+bindsym $mod+Shift+7        move container to workspace number 7
+bindsym $mod+Shift+8        move container to workspace number 8
+bindsym $mod+Shift+9        move container to workspace number 9
+bindsym $mod+Shift+0        move container to workspace number 10
+
+# layout
+bindsym $mod+b              splith
+bindsym $mod+v              splitv
+bindsym $mod+s              layout stacking
+bindsym $mod+w              layout tabbed
+bindsym $mod+e              layout toggle split
+bindsym $mod+f              fullscreen
+bindsym $mod+Shift+space    floating toggle
+bindsym $mod+space          focus mode_toggle
+
+# Scratchpad
+bindsym $mod+Shift+minus    move scratchpad
+bindsym $mod+minus          scratchpad show
+
+# Multimedia
+bindsym --locked XF86AudioRaiseVolume exec --no-startup-id pulseaudio-ctl up
+bindsym --locked XF86AudioLowerVolume exec --no-startup-id pulseaudio-ctl down
+bindsym --locked XF86AudioMute        exec --no-startup-id pulseaudio-ctl mute
+bindsym --locked XF86AudioPlay        exec playerctl play-pause
+bindsym --locked XF86AudioNext        exec playerctl next
+bindsym --locked XF86AudioPrev        exec playerctl previous
+
+# Resizing containers
+bindsym $mod+r              mode "resize"
+mode "resize" {
+  bindsym h                 resize shrink width 10px
+  bindsym j                 resize grow height 10px
+  bindsym k                 resize shrink height 10px
+  bindsym l                 resize grow width 10px
+
+  bindsym Left              resize shrink width 10px
+  bindsym Down              resize grow height 10px
+  bindsym Up                resize shrink height 10px
+  bindsym Right             resize grow width 10px
+
+  bindsym Return            mode "default"
+  bindsym Escape            mode "default"
+}
+
+bar {
+  swaybar_command waybar
+}
+
+### notifications
+exec mako
+
+### Idle configuration
+# exec swayidle -w \
+#   timeout 300  '$lock' \
+#   timeout 600  'swaymsg "output * dpms off"' \
+#   resume       'swaymsg "output * dpms on"' \
+#   before-sleep '$lock'
+
+### customizations
+for_window [app_id = "ulauncher"] {
+  border none
+  floating enabled
+}
+
+for_window [title = ".*ClamTk"] {
+  floating enabled
+}
+
+### autostart
+exec_always ~/.local/bin/save-env
+exec_always ~/.local/bin/update-wallpaper
+exec dex -a
+

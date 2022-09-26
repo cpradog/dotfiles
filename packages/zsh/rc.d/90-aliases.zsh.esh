@@ -1,0 +1,23 @@
+
+alias ~='cd ~'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias l='k -h --group-directories-first'
+alias ll='k -ha --group-directories-first'
+alias cat='bat'
+
+<% if command -v kpsewhich 2>&1 >/dev/null; then -%>
+alias l3build='<%= $(kpsewhich l3build.lua) %>'
+<% fi -%>
+
+<% if [ "$(uname)" == 'Linux' ]; then -%>
+alias open='xdg-open'
+alias bw='bw --session `pass session/bitwarden`'
+<%# alias cal='khal' -%>
+<%# alias ical='ikhal' -%>
+<%# alias contacts='khard' -%>
+<%# alias mail='neomutt' -%>
+alias ssh='TERM=xterm-256color ssh'
+alias journal='lnav /var/log/everything/current'
+alias rclone='rclone --password-command "pass session/rclone"'
+<% fi -%>

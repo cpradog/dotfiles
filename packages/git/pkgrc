@@ -1,0 +1,29 @@
+#!/usr/bin/env sh
+
+import xdg zsh files
+
+is_available() {
+  exists_command 'git'
+}
+
+install() {
+  xdg_link_config 'config' 'git/config'
+
+  # git helpers for zsh
+  zsh_add_plugin 'ohmyzsh/ohmyzsh path:plugins/git'
+  zsh_add_plugin 'ohmyzsh/ohmyzsh path:plugins/git-flow'
+  zsh_add_plugin 'wfxr/forgit'
+  zsh_add_rc '50-forgit.zsh'
+  zsh_add_rc '90-git-aliases.zsh'
+  zsh_add_env '10-git-duet.zsh'
+}
+
+uninstall() {
+  xdg_unlink_config 'git'
+  zsh_del_plugin 'ohmyzsh/ohmyzsh path:plugins/git'
+  zsh_del_plugin 'ohmyzsh/ohmyzsh path:plugins/git-flow'
+  zsh_del_plugin 'wfxr/forgit'
+  zsh_del_rc '50-forgit.zsh'
+  zsh_del_rc '90-git-aliases.zsh'
+  zsh_del_env '10-git-duet.zsh'
+}

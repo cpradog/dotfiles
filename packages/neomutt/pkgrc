@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+
+import xdg files
+
+is_available() {
+  exists_command 'neomutt'
+}
+
+install() {
+  xdg_link_config 'muttrc' 'neomutt/muttrc'
+  xdg_link_config 'mailcap' 'neomutt/mailcap'
+  xdg_link_config 'keybindings.muttrc' 'neomutt/keybindings.muttrc'
+  xdg_link_config 'dracula.muttrc' 'neomutt/dracula.muttrc'
+  xdg_link_config 'accounts' 'neomutt/accounts'
+}
+
+uninstall() {
+  xdg_unlink_config 'neomutt'
+}

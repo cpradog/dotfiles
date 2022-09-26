@@ -1,0 +1,26 @@
+set check_new  = yes
+set beep_new   = yes
+set mail_check = 60
+auto_view text/html
+
+set sort              = 'threads'
+set sort_aux          = 'last-date-received'
+
+set date_format       = '%F %R'
+set index_format      = '%[%F %R] %Z %-25.25L %-25.25t %s %> %H %J'
+
+set wait_key          = no                  # return to neomutt without ask for key
+set fast_reply        = yes                 # do not ask for address or subject on reply
+set include           = yes                 # include original message
+set forward_quote     = yes                 # include message in forwards
+set edit_headers      = yes                 # show headers when composing
+set fcc_attach        = yes                 # save attachments with the body
+set forward_decode    = yes                 # decode when forwarding
+set attribution       = "On %d, %n wrote:"  # format of quoting header
+set reply_to          = yes                 # reply to Reply to: field
+set sidebar_visible   = yes                 # show sidebar
+
+set mailcap_path = ./mailcap
+source ./dracula.muttrc
+source ./accounts/cpradog.com
+# source ./keybindings.muttrc

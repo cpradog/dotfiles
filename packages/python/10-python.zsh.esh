@@ -1,0 +1,7 @@
+<% import xdg -%>
+
+<% if [ "$(uname)" != 'Darwin' ]; then -%>
+<% python_version="$(python --version | awk '{print $2}' | awk 'BEGIN {FS="."} {print $1"."$2}')" -%>
+path+=('<%= $(file_path 'Library' 'Python' "$python_version" 'bin') %>')
+alias pip3="python3 -m pip"
+<% fi -%>

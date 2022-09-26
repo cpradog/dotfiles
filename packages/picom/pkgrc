@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+
+import xdg files
+
+is_available() {
+  exists_command 'picom'
+}
+
+install() {
+  xdg_link_config 'picom.conf' 'picom/picom.conf'
+}
+
+uninstall() {
+  xdg_unlink_config 'picom'
+}

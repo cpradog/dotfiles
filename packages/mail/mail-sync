@@ -1,0 +1,11 @@
+#!/bin/sh
+# shellcheck source=/home/cpradog/.local/bin/mail-sync
+. "${HOME}/.local/bin/load-env"
+
+mbsync -a -c "${XDG_CONFIG_HOME:-${HOME}/.config}/mbsync/config"
+mu index || true
+
+unread=$(mu find flag:unread | wc -l)
+if [ "${unread}" -gt 0 ]; then
+  notify-send -a 'Mail check' -t 3000 -w "You have ${unread} unread messages"
+fi
