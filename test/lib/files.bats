@@ -143,3 +143,13 @@ import files
   assert_dir_not_exists "$D/some_directory/with_subdirectories"
   assert_file_exists "$D/some_directory/other_files"
 }
+
+@test "exists_command should success when command is available in \$path" {
+  run exists_command 'bats'
+  assert_success
+}
+
+@test "exists_command should fail when command is not available in \$path" {
+  run exists_command 'this-command-should-not-exists'
+  assert_failure
+}

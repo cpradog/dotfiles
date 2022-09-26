@@ -93,3 +93,7 @@ file_unlink() {
       ;;
   esac
 }
+
+exists_command() {
+  command -v "$1" >/dev/null
+}
