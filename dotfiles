@@ -41,6 +41,7 @@ execute_package() {
   TMP="$(mktemp)"
   ACTION=$1
   PKGDIR=$2
+  SILENT=${3:-}
   PKGFILE="$PKGDIR/pkgrc"
   PKGNAME="${PKGDIR##*/}"
 
@@ -73,16 +74,28 @@ export PN="$PKGNAME"
 cd "$PKGDIR" 2>/dev/null || die "package not found: $PKGNAME"
 [ -f "$PKGFILE" ] && . "$PKGFILE"
 
-if type "$ACTION" >/dev/null 2>&1; then
-  info "${ACTION}ing ${PKGNAME} ..."
+function run_action {
+  if type "\$1" >/dev/null 2>&1; then
+    if [ $DOTFILES_TRACE -gt 0 ]; then
+      set -o xtrace # enable shell command tracing
+    fi
 
-  if [ $DOTFILES_TRACE -gt 0 ]; then
-    set -o xtrace # enable shell command tracing
+    \$1
+  else
+    if [ \$2 -eq 1 ] && [ '$SILENT' != 'silent' ]; then
+      warn "\$1 action not supported"
+    fi
+
+    true
+  fi
+}
+
+if run_action 'is_available' 0; then
+  if [ '$SILENT' != 'silent' ]; then
+    info "${ACTION}ing ${PKGNAME} ..."
   fi
 
-  $ACTION
-else
-  warn "$ACTION action not supported"
+  run_action '$ACTION' 1
 fi
 EOF
 
@@ -154,7 +167,13 @@ debug "packages to install: $DOTFILES_PACKAGES"
 case $DOTFILES_COMMAND in
   install | uninstall)
     for pkg in $DOTFILES_PACKAGES; do
+      execute_package "pre_$DOTFILES_COMMAND" "$DOTFILES_ROOT/$pkg" "silent"
+    done
+    for pkg in $DOTFILES_PACKAGES; do
       execute_package "$DOTFILES_COMMAND" "$DOTFILES_ROOT/$pkg"
+    done
+    for pkg in $DOTFILES_PACKAGES; do
+      execute_package "post_$DOTFILES_COMMAND" "$DOTFILES_ROOT/$pkg" "silent"
     done
     ;;
 
