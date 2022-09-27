@@ -10,6 +10,9 @@ install() {
   xdg_link_bin 'i3-download-wallpaper'
   xdg_link_config 'config' 'i3/config'
   file_link 'xinitrc' '.xinitrc'
+  xdg_link_config 'picom.conf' 'picom/picom.conf'
+  xdg_link_config 'redshift.conf' 'redshift/redshift.conf'
+  xdg_link_config 'polybar' 'polybar'
 
   if command -v systemctl > /dev/null; then
     xdg_link_config 'i3-update-wallpaper.service' 'systemd/user/i3-update-wallpaper.service'
@@ -23,6 +26,9 @@ uninstall() {
   xdg_unlink_bin 'i3-download-wallpaper'
   xdg_unlink_config 'i3/config'
   file_unlink '.xinitrc'
+  xdg_unlink_config 'picom'
+  xdg_unlink_config 'redshift'
+  xdg_unlink_config 'polybar'
 
   if command -v systemctl > /dev/null; then
     systemctl --user disable --now i3-update-wallpaper.timer
