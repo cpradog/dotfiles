@@ -11,7 +11,12 @@ install() {
   xdg_link_bin 'save-env'
   xdg_link_bin 'update-wallpaper'
   xdg_link_bin 'lock-screen'
-  xdg_link_config 'config' 'sway/config'
+  xdg_link_config 'sway.conf' 'sway/config'
+  xdg_link_config 'mako.conf' 'mako/config'
+  xdg_link_config 'gammastep.ini' 'gammastep/config.ini'
+  xdg_link_config 'sirula' 'sirula'
+  xdg_link_config 'waybar' 'waybar'
+  xdg_link_config 'wlogout' 'wlogout'
 
   if command -v systemctl > /dev/null; then
     xdg_link_config 'update-wallpaper.service' 'systemd/user/sway-update-wallpaper.service'
@@ -27,6 +32,11 @@ uninstall() {
   xdg_unlink_bin 'update-wallpaper'
   xdg_unlink_bin 'lock-screen'
   xdg_unlink_config 'sway'
+  xdg_unlink_config 'mako'
+  xdg_unlink_config 'gammastep'
+  xdg_unlink_config 'sirula'
+  xdg_unlink_config 'waybar'
+  xdg_unlink_config 'wlogout'
 
   if command -v systemctl > /dev/null; then
     systemctl --user disable --now sway-update-wallpaper.timer
