@@ -28,3 +28,34 @@ uninstall() {
   xdg_unlink_data 'nvm'
   xdg_unlink_config 'npm/npmrc'
 }
+
+post_install() {
+  zsh -ic 'nvm install 18 --latest-npm --default'
+  zsh -ic 'npm -g install \
+    @bitwarden/cli \
+    @nestjs/cli \
+    @openapitools/openapi-generator-cli \
+    @redocly/openapi-cli \
+    alex \
+    bash-language-server \
+    cdktf-cli \
+    diagnostic-languageserver \
+    dockerfile-language-server \
+    elasticdump \
+    eslint_d \
+    fixjson \
+    js-beautify \
+    neovim \
+    npm-check-updates \
+    prettier_d_slim \
+    pyright \
+    snyk \
+    stylelint \
+    stylelint-lsp \
+    tree-sitter-cli \
+    vim-language-server \
+    vscode-json-languageserver \
+    vscode-languageservers-extracted \
+    yarn \
+    yo'
+}
