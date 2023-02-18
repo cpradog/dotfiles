@@ -23,5 +23,5 @@ export TEXMFCONFIG=${XDG_CONFIG_HOME}/texlive
 export TEXMFVAR=${XDG_DATA_HOME}/texlive/texmf-var
 export STACK_ROOT=${XDG_CONFIG_HOME}/stack
 export CABAL_DIR=${XDG_CONFIG_HOME}/cabal
-export LEDGER_FILE="${XDG_DATA_HOME}/hledger/current.journal"
+export LEDGER_FILE="${XDG_DATA_HOME}/hledger/personal/current.journal"
 export MPLAYER_HOME="${XDG_CONFIG_HOME}/mplayer"
