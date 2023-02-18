@@ -6,6 +6,10 @@
 	rebase = true
 [init]
   defaultBranch = main
+[commit]
+	gpgsign = true
+[gpg]
+  program = gpg
 [pager]
   diff = delta
   log = delta
@@ -14,13 +18,28 @@
 [interactive]
   diffFilter = delta --color-only --features=interactive
 [merge]
-	tool = diffconflicts
+	tool = ediff
   conflictstyle = diff3
 [mergetool]
 	keepBackup = false
   keepTemporaries = false
-[gpg]
-  program = gpg
+[mergetool "diffconflicts"]
+	cmd = nvim -c DiffConflicts \"$MERGED\" \"$BASE\" \"$LOCAL\" \"$REMOTE\"
+	trustExitCode = true
+[mergetool.ediff]
+    cmd = emacs --eval \"\
+(progn\
+  (defun ediff-write-merge-buffer ()\
+    (let ((file ediff-merge-store-file))\
+      (set-buffer ediff-buffer-C)\
+      (write-region (point-min) (point-max) file)\
+      (message \\\"Merge buffer saved in: %s\\\" file)\
+      (set-buffer-modified-p nil)\
+      (sit-for 1)))\
+  (setq ediff-quit-hook 'kill-emacs\
+        ediff-quit-merge-hook 'ediff-write-merge-buffer)\
+  (ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\"\
+                                   \\\"$BASE\\\" nil \\\"$MERGED\\\"))\"
 [delta]
   features = decorations
   line-numbers = true
@@ -35,8 +54,6 @@
   hunk-header-file-style = red
   hunk-header-line-number-style = "#067a00"
   hunk-header-style = file line-number syntax
-[mergetool "diffconflicts"]
-	cmd = nvim -c DiffConflicts \"$MERGED\" \"$BASE\" \"$LOCAL\" \"$REMOTE\"
-	trustExitCode = true
-[commit]
-	gpgsign = true
+
+[credential "https://vassgit.vass.es"]
+  helper = !pass git/vassgit
