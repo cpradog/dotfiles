@@ -7,7 +7,7 @@ install() {
   zsh_add_rc 'rc.d/10-history.zsh.esh'
   zsh_add_rc 'rc.d/10-globbing.zsh'
   zsh_add_rc 'rc.d/10-completion.zsh.esh'
-  zsh_add_rc 'rc.d/59-antibody.zsh.esh'
+  zsh_add_rc 'rc.d/59-plugins.zsh.esh'
   zsh_add_rc 'rc.d/90-aliases.zsh.esh'
   zsh_add_rc 'rc.d/90-keybindings.zsh'
   zsh_add_env 'env.d/10-locale.zsh.esh'
@@ -60,7 +60,7 @@ uninstall() {
   xdg_unlink_data 'zsh'
   xdg_unlink_config 'zsh'
   xdg_unlink_cache 'zsh'
-  xdg_unlink_bin 'antibody'
+  xdg_unlink_bin 'antidote'
   file_unlink '.zshrc'
   file_unlink '.zshenv'
 }

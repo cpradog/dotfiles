@@ -57,48 +57,46 @@ import zsh
   assert_file_exists "$D/.local/share/zsh/env.d/20-template"
 }
 
-@test 'zsh_add_plugin should register antibody plugin and regenerate init script' {
+@test 'zsh_add_plugin should register plugin and regenerate init script' {
   run zsh_add_plugin 'supercrabtree/k'
   assert_success
-  assert_file_exist "$D/.local/share/zsh/antibody/plugins"
-  assert_file_contains "$D/.local/share/zsh/antibody/plugins" 'supercrabtree/k'
-  assert_file_exist "$D/.cache/zsh/antibody/init.zsh"
+  assert_file_exist "$D/.local/share/zsh/plugins"
+  assert_file_contains "$D/.local/share/zsh/plugins" 'supercrabtree/k'
+  assert_file_exist "$D/.cache/zsh/plugins.zsh"
 }
 
 @test 'zsh_add_plugin should regen zshrc file' {
   mkdir -p "$D/.local/share/zsh/rc.d"
   run zsh_add_plugin 'supercrabtree/k'
   assert_success
-  assert_file_exist "$D/.cache/zsh/antibody/init.zsh"
+  assert_file_exist "$D/.cache/zsh/plugins.zsh"
   assert_file_exist "$D/.zshrc"
 }
 
-@test 'zsh_del_plugin should remove antibody plugin and regenerate init script' {
-  mkdir -p "$D/.local/share/zsh/antibody"
+@test 'zsh_del_plugin should remove plugin and regenerate init script' {
   mkdir -p "$D/.local/share/zsh/rc.d"
-  echo "supercrabtree/k" >> "$D/.local/share/zsh/antibody/plugins"
-  echo "some/plugin" >> "$D/.local/share/zsh/antibody/plugins"
+  echo "supercrabtree/k" >> "$D/.local/share/zsh/plugins"
+  echo "some/plugin" >> "$D/.local/share/zsh/plugins"
 
   run zsh_del_plugin 'some/plugin'
   assert_success
-  assert_file_exist "$D/.local/share/zsh/antibody/plugins"
-  assert_file_contains "$D/.local/share/zsh/antibody/plugins" 'supercrabtree/k'
-  assert_file_not_contains "$D/.local/share/zsh/antibody/plugins" 'some/plugin'
-  assert_file_exist "$D/.cache/zsh/antibody/init.zsh"
+  assert_file_exist "$D/.local/share/zsh/plugins"
+  assert_file_contains "$D/.local/share/zsh/plugins" 'supercrabtree/k'
+  assert_file_not_contains "$D/.local/share/zsh/plugins" 'some/plugin'
+  assert_file_exist "$D/.cache/zsh/plugins.zsh"
 }
 
-@test 'zsh_del_plugin should not fail if antibody plugins file is not pressent' {
+@test 'zsh_del_plugin should not fail if plugins file is not pressent' {
   run zsh_del_plugin 'some/plugin'
   assert_success
-  assert_file_not_exist "$D/.local/share/zsh/antibody/plugins"
-  assert_file_not_exist "$D/.cache/zsh/antibody/init.zsh"
+  assert_file_not_exist "$D/.local/share/zsh/plugins"
+  assert_file_not_exist "$D/.cache/zsh/plugins.zsh"
 
 }
 
 @test 'zsh_del_plugin should regen zshrc file' {
-  mkdir -p "$D/.local/share/zsh/antibody"
   mkdir -p "$D/.local/share/zsh/rc.d"
-  echo "some/plugin" >> "$D/.local/share/zsh/antibody/plugins"
+  echo "some/plugin" >> "$D/.local/share/zsh/plugins"
 
   run zsh_del_plugin 'some/plugin'
   assert_success

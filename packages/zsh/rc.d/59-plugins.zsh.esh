@@ -1,0 +1,7 @@
+<%
+import xdg;
+plugins_file="$(xdg_get_cache 'zsh' 'plugins.zsh')";
+if [[ -e "${plugins_file}" ]]; then
+  cat < "${plugins_file}";
+fi
+-%>

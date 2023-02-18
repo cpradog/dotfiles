@@ -6,7 +6,7 @@ if [[ $EUID -ne 0 ]]; then
   # escalate
   sudo "$0" "$@" || exit $?
 
-  zsh -ci "antibody update" || exit 7
+  zsh -ci "antidote update" || exit 7
   doom upgrade || exit 7
   doom purge || exit 7
 

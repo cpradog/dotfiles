@@ -46,7 +46,7 @@ if [[ $EUID -ne 0 ]]; then
   sudo $0 $@ || exit $?
 
   if [ $DO_UPDATE_HOME = 1 ]; then
-    zsh -ci "antibody update" || exit 7
+    zsh -ci "antidote update" || exit 7
     doom upgrade || exit 7
     doom purge || exit 7
   fi

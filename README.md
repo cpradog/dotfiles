@@ -48,8 +48,8 @@ zshenv file.
 *zsh_del_env* unlink the specified file from env.d directory and regenerate
 zshenv file.
 
-### antibody
+### antidote
 
-Zsh plugins are managed with antibody. As with configuration files, there
+Zsh plugins are managed with antidote. As with configuration files, there
 are similar functions (*zsh_add_plugin*, *zsh_del_plugin*) to
-register/unregister a plugin and update antibody scripts.
+register/unregister a plugin and update scripts.
