@@ -1,5 +1,0 @@
-<% if [ $(uname) == 'Darwin' ]; then %>
-<% import files -%>
-# initialize sdkman
-<% cat "$(file_path '.sdkman' 'bin' 'sdkman-init.sh')" %>
-<% fi -%>
