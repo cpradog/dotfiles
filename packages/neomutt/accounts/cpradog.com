@@ -21,6 +21,4 @@ alternates -group me \
            cpradog@me.com \
            cpradog@icloud.com \
            carlos.prado@cpradog.com \
-           carlos.prado@mad.vass.es \
-           carlos.prado@servexternos.gruposantander.com \
-           carlos.prado@servexternos.pagonxt.com
+           carlos.prado@mad.vass.es
