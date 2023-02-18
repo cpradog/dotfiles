@@ -15,6 +15,7 @@ install() {
   zsh_add_plugin 'wfxr/forgit'
   zsh_add_rc '50-forgit.zsh'
   zsh_add_rc '90-git-aliases.zsh'
+  zsh_add_rc '60-p10k-pairing.zsh'
   zsh_add_env '10-git-duet.zsh'
 }
 
@@ -25,5 +26,6 @@ uninstall() {
   zsh_del_plugin 'wfxr/forgit'
   zsh_del_rc '50-forgit.zsh'
   zsh_del_rc '90-git-aliases.zsh'
+  zsh_del_rc '60-p10k-pairing.zsh'
   zsh_del_env '10-git-duet.zsh'
 }

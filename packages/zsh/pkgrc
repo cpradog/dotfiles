@@ -16,7 +16,6 @@ install() {
   zsh_add_plugin 'romkatv/powerlevel10k path:powerlevel10k.zsh-theme'
   xdg_link_config 'p10k.zsh' 'zsh/p10k.zsh'
   zsh_add_rc 'rc.d/50-p10k.zsh.esh'
-  zsh_add_rc 'rc.d/60-p10k-pairing.zsh'
 
   # directory listing for zsh with git features
   zsh_add_plugin 'supercrabtree/k'
